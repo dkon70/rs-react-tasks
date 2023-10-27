@@ -9,6 +9,6 @@ export default defineConfig({
       scss: {
         additionalData: `@use "./src/style/style.scss" as *;`,
       },
-    }
-  }
+    },
+  },
 });
