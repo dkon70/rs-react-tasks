@@ -1,22 +1,21 @@
 import style from './ProductCard.module.scss';
 import { Component } from 'react';
 
-const data = {
-  title: "Samsung Galaxy Book",
-  description: "Samsung Galaxy Book S (2020) Laptop With Intel Lakefield Chip, 8GB of RAM Launched",
-  price: 1499,
-  img: "https://i.dummyjson.com/data/products/7/thumbnail.jpg"
-
+type DataProps = {
+  title: string,
+  description: string,
+  price: number,
+  thumbnail: string
 }
 
-class ProductCard extends Component {
+class ProductCard extends Component<DataProps> {
   render() {
     return (
       <div className={style.wrapper}>
-        <img className={style.image} src={data.img} alt={data.title} />
+        <img className={style.image} src={this.props.thumbnail} alt={this.props.title} />
         <div className={style.textBox}>
-          <h3 className={style.title}>{data.title} - {data.price}$</h3>
-          <p className={style.description}>{data.description}</p>
+          <h3 className={style.title}>{this.props.title} - {this.props.price}$</h3>
+          <p className={style.description}>{this.props.description}</p>
         </div>
       </div>
     )

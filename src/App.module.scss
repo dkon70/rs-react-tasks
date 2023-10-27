@@ -1,0 +1,24 @@
+@import url('./assets/fonts/Ubuntu/stylesheet.scss');
+
+body {
+  margin: 0 auto;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.header {
+  width: 100%;
+  border-bottom: 1px solid $color-gray;
+}
+
+.wrapper {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  max-width: 1280px;
+}
+
+.mainContainer {
+  padding-top: 50px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
