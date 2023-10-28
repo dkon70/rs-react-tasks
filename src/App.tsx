@@ -20,6 +20,7 @@ class App extends Component {
 
   dataTransfer = async (value: string) => {
     this.setState({ searchValue: value });
+    localStorage.setItem('prevSearch', value);
     const data: Data = await searchData(value);
     this.setState({ data: data, firstLoad: false });
   };

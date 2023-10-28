@@ -7,22 +7,28 @@ type SearchProps = {
 };
 
 class SearchBar extends Component<SearchProps> {
-  state = { inputValue: '' };
+  state = { inputValue: localStorage.getItem('prevSearch') || '' };
 
-  private inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ inputValue: event.target.value });
   };
 
-  private submitHandler = () => {
+  submitHandler = () => {
     this.props.dataTransfer(this.state.inputValue);
     this.setState({ inputValue: '' });
   };
 
-  private keyPressHandler = (event: React.KeyboardEvent) => {
+  keyPressHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       this.submitHandler();
     }
   };
+
+  componentDidMount(): void {
+    if (localStorage.getItem('prevSearch')) {
+      this.submitHandler();
+    }
+  }
 
   render() {
     return (
