@@ -26,7 +26,9 @@ class SearchBar extends Component<SearchProps> {
 
   componentDidMount(): void {
     if (localStorage.getItem('prevSearch')) {
-      this.submitHandler();
+      this.props.dataTransfer(this.state.inputValue);
+    } else {
+      this.props.dataTransfer('');
     }
   }
 

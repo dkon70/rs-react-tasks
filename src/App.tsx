@@ -16,7 +16,12 @@ type Data = {
 };
 
 class App extends Component {
-  state = { searchValue: '', data: { products: [] }, firstLoad: true };
+  state = {
+    searchValue: '',
+    data: { products: [] },
+    firstLoad: true,
+    error: false,
+  };
 
   dataTransfer = async (value: string) => {
     this.setState({ searchValue: value });
@@ -26,6 +31,9 @@ class App extends Component {
   };
 
   render() {
+    if (this.state.error) {
+      throw new Error('Error');
+    }
     return (
       <>
         <header className={style.header}>
@@ -34,6 +42,16 @@ class App extends Component {
           </div>
         </header>
         <main className={style.main}>
+          <div className={style.buttonWrapper}>
+            <button
+              className={style.errorButton}
+              onClick={() => {
+                this.setState({ error: true });
+              }}
+            >
+              Error
+            </button>
+          </div>
           <div className={`${style.wrapper} ${style.mainContainer}`}>
             {this.state.data.products && this.state.data.products.length > 0 ? (
               this.state.data.products.map((el: Elem) => {
