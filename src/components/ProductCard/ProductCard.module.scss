@@ -1,0 +1,23 @@
+.wrapper {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  border: 1px solid $color-gray;
+}
+
+.image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.textBox {
+  border-top: 1px solid $color-gray;
+  margin: 0;
+}
+
+.description,
+.title {
+  text-align: center;
+}
