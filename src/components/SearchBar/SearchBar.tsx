@@ -1,54 +1,54 @@
 import style from './SearchBar.module.scss';
-import { Component } from 'react';
 import React from 'react';
+import { useState, useEffect } from 'react';
 
 type SearchProps = {
   dataTransfer: (value: string) => void;
 };
 
-class SearchBar extends Component<SearchProps> {
-  state = { inputValue: localStorage.getItem('prevSearch') || '' };
+const SearchBar = ({ dataTransfer }: SearchProps) => {
+  const [inputValue, setInputValue] = useState(
+    localStorage.getItem('prevSearch') || ''
+  );
 
-  inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: event.target.value });
+  const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
-  submitHandler = () => {
-    this.props.dataTransfer(this.state.inputValue);
-    this.setState({ inputValue: '' });
+  const submitHandler = () => {
+    dataTransfer(inputValue);
+    setInputValue('');
   };
 
-  keyPressHandler = (event: React.KeyboardEvent) => {
+  const keyPressHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      this.submitHandler();
+      submitHandler();
     }
   };
 
-  componentDidMount(): void {
+  useEffect(() => {
     if (localStorage.getItem('prevSearch')) {
-      this.props.dataTransfer(this.state.inputValue);
+      dataTransfer(inputValue);
     } else {
-      this.props.dataTransfer('');
+      dataTransfer('');
     }
-  }
+  }, []);
 
-  render() {
-    return (
-      <div className={style.wrapper}>
-        <input
-          className={style.input}
-          type="text"
-          placeholder="type something..."
-          onChange={this.inputHandler}
-          onKeyDown={this.keyPressHandler}
-          value={this.state.inputValue}
-        />
-        <button className={style.button} onClick={this.submitHandler}>
-          Search
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={style.wrapper}>
+      <input
+        className={style.input}
+        type="text"
+        placeholder="type something..."
+        onChange={inputHandler}
+        onKeyDown={keyPressHandler}
+        value={inputValue}
+      />
+      <button className={style.button} onClick={submitHandler}>
+        Search
+      </button>
+    </div>
+  );
+};
 
 export default SearchBar;
