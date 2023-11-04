@@ -1,22 +1,19 @@
 import style from './App.module.scss';
 import { useState } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
-import ProductCard from './components/ProductCard/ProductCard';
 import searchData from './scripts/search';
-import Loader from './components/Loader/Loader';
+import PaginationControls from './components/PaginationControls/PaginationControls';
+import Main from './pages/Main/Main';
+import { Elem } from './components/types/Types';
 
-type Elem = {
-  price: number;
-  title: string;
-  description: string;
-  thumbnail: string;
-};
 
 const App = () => {
-  const [data, setData] = useState({ products: [] as Elem[] });
+  const [data, setData] = useState({ products: [] as Elem[], total: 0 });
   const [firstLoad, setFirstLoad] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(5);
 
   const dataTransfer = async (value: string) => {
     setLoading(true);
@@ -29,6 +26,23 @@ const App = () => {
 
   if (error) {
     throw new Error('Error');
+  }
+
+  const prevPageHandler = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  }
+
+  const nextPageHandler = () => {
+    if (data.total / productsPerPage > page) {
+      setPage(page + 1);
+    }
+  }
+
+  const productsPerPageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProductsPerPage(Number(e.target.value));
+    console.log(e.target.value);
   }
 
   return (
@@ -49,26 +63,11 @@ const App = () => {
             Error
           </button>
         </div>
+        <div className={style.pagination}>
+          <PaginationControls prevPage={prevPageHandler} nextPage={nextPageHandler} page={page} productsPerPage={productsPerPageHandler} products={productsPerPage} />
+        </div>
         <div className={`${style.wrapper} ${style.mainContainer}`}>
-          {loading ? (
-            <Loader />
-          ) : data.products && data.products.length > 0 ? (
-            data.products.map((el: Elem) => {
-              return (
-                <ProductCard
-                  key={el.title}
-                  title={el.title}
-                  thumbnail={el.thumbnail}
-                  description={el.description}
-                  price={el.price}
-                />
-              );
-            })
-          ) : firstLoad ? (
-            <h1></h1>
-          ) : (
-            <h1>No Data</h1>
-          )}
+          <Main data={data} loading={loading} firstLoad={firstLoad} />
         </div>
       </main>
     </>

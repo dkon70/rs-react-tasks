@@ -1,11 +1,5 @@
 import style from './ProductCard.module.scss';
-
-type DataProps = {
-  title: string;
-  description: string;
-  price: number;
-  thumbnail: string;
-};
+import { DataProps } from '../types/Types';
 
 const ProductCard = (props: DataProps) => {
   return (

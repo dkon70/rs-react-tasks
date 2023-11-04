@@ -1,10 +1,7 @@
 import style from './SearchBar.module.scss';
 import React from 'react';
 import { useState, useEffect } from 'react';
-
-type SearchProps = {
-  dataTransfer: (value: string) => void;
-};
+import { SearchProps } from '../types/Types';
 
 const SearchBar = ({ dataTransfer }: SearchProps) => {
   const [inputValue, setInputValue] = useState(
