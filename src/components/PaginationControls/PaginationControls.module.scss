@@ -21,7 +21,7 @@
 
   input::-webkit-inner-spin-button,
   input::-webkit-outer-spin-button {
-      -webkit-appearance: none;
+    -webkit-appearance: none;
   }
 }
 
@@ -46,4 +46,9 @@
 
 .button:active {
   background: $color-blue;
+}
+
+.button.disabled {
+  background: $color-gray;
+  cursor: default;
 }

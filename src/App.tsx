@@ -6,7 +6,6 @@ import PaginationControls from './components/PaginationControls/PaginationContro
 import Main from './pages/Main/Main';
 import { Elem } from './components/types/Types';
 
-
 const App = () => {
   const [data, setData] = useState({ products: [] as Elem[], total: 0 });
   const [firstLoad, setFirstLoad] = useState(true);
@@ -32,18 +31,18 @@ const App = () => {
     if (page > 1) {
       setPage(page - 1);
     }
-  }
+  };
 
   const nextPageHandler = () => {
     if (data.total / productsPerPage > page) {
       setPage(page + 1);
     }
-  }
+  };
 
   const productsPerPageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProductsPerPage(Number(e.target.value));
     console.log(e.target.value);
-  }
+  };
 
   return (
     <>
@@ -64,7 +63,14 @@ const App = () => {
           </button>
         </div>
         <div className={style.pagination}>
-          <PaginationControls prevPage={prevPageHandler} nextPage={nextPageHandler} page={page} productsPerPage={productsPerPageHandler} products={productsPerPage} />
+          <PaginationControls
+            prevPage={prevPageHandler}
+            nextPage={nextPageHandler}
+            page={page}
+            productsPerPage={productsPerPageHandler}
+            products={productsPerPage}
+            total={data.total}
+          />
         </div>
         <div className={`${style.wrapper} ${style.mainContainer}`}>
           <Main data={data} loading={loading} firstLoad={firstLoad} />

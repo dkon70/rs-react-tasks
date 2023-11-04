@@ -3,10 +3,10 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import { Elem, MainProps } from '../../components/types/Types';
 
 const Main = (props: MainProps) => {
-  const {loading, data, firstLoad} = props;
+  const { loading, data, firstLoad } = props;
 
   return (
-      <>
+    <>
       {loading ? (
         <Loader />
       ) : data.products && data.products.length > 0 ? (
@@ -27,7 +27,7 @@ const Main = (props: MainProps) => {
         <h1>No Data</h1>
       )}
     </>
-  )
-}
+  );
+};
 
 export default Main;

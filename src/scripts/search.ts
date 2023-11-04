@@ -1,4 +1,4 @@
-const searchData = async (name: string, limit=0, skip=0) => {
+const searchData = async (name: string, limit = 0, skip = 0) => {
   const response = await fetch(
     `https://dummyjson.com/products/search?q=${name}&limit=${limit}&skip=${skip}`
   );
