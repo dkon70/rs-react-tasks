@@ -2,11 +2,13 @@ import style from './SearchBar.module.scss';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { SearchProps } from '../types/Types';
+import { useSearchParams } from 'react-router-dom';
 
 const SearchBar = ({ dataTransfer }: SearchProps) => {
   const [inputValue, setInputValue] = useState(
     localStorage.getItem('prevSearch') || ''
   );
+  const [searchParams] = useSearchParams();
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -30,6 +32,10 @@ const SearchBar = ({ dataTransfer }: SearchProps) => {
       dataTransfer('');
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('prevSearch', searchParams.get('search') || '');
+  }, [searchParams]);
 
   return (
     <div className={style.wrapper}>
