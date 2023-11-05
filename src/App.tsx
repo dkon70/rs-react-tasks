@@ -75,7 +75,6 @@ const App = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    dataTransfer(localStorage.getItem('prevSearch') || '');
     setSearchParams({
       search: localStorage.getItem('prevSearch') || '',
       page: searchParams.get('page') || '1',

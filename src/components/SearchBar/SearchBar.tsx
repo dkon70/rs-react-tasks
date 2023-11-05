@@ -5,10 +5,10 @@ import { SearchProps } from '../types/Types';
 import { useSearchParams } from 'react-router-dom';
 
 const SearchBar = ({ dataTransfer }: SearchProps) => {
-  const [inputValue, setInputValue] = useState(
-    localStorage.getItem('prevSearch') || ''
-  );
   const [searchParams] = useSearchParams();
+  const [inputValue, setInputValue] = useState(
+    searchParams.get('search') || ''
+  );
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
