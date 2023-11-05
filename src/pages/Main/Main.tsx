@@ -18,6 +18,7 @@ const Main = (props: MainProps) => {
               thumbnail={el.thumbnail}
               description={el.description}
               price={el.price}
+              id={el.id}
             />
           );
         })

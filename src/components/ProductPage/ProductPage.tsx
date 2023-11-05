@@ -1,48 +1,48 @@
 import style from './ProductPage.module.scss';
-import { ProductPageProps } from '../types/Types';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import getItem from '../../scripts/getItem';
 import Loader from '../Loader/Loader';
+import { DataProps } from '../types/Types';
 
-const ProductPage = (props: ProductPageProps) => {
-  const {thumbnail, title, description, price} = props;
-  const { itemId } = useParams();
+const ProductPage = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [loading] = useState(true);
-  const [, setDetails] = useState(null);
-
+  const [loading, setLoading] = useState(true);
+  const [details, setDetails] = useState({} as DataProps);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const details = await getItem(Number(itemId));
+        const details = await getItem(Number(id));
         setDetails(details);
+        setLoading(false);
       } catch (error) {
-        throw new Error;
+        throw new Error();
       }
-    }
+    };
 
     fetchData();
-
-  }, [itemId]);
+  }, [id]);
 
   const closePage = () => {
     navigate('/');
-  }
-
-  if (loading) {
-    return <Loader />
-  }
+  };
 
   return (
-    <div className={style.wrapper}>
-      <img src={thumbnail} alt={title} />
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <p>{price}</p>
-      <button onClick={closePage}>Close</button>
-    </div>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className={style.wrapper}>
+          <img src={details.thumbnail} alt={details.title} />
+          <h1>{details.title}</h1>
+          <p>{details.description}</p>
+          <p>{details.price}</p>
+          <button onClick={closePage}>Close</button>
+        </div>
+      )}
+    </>
   );
 };
 

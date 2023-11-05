@@ -5,7 +5,12 @@ import searchData from './scripts/search';
 import PaginationControls from './components/PaginationControls/PaginationControls';
 import Main from './pages/Main/Main';
 import { Elem } from './components/types/Types';
-import { useSearchParams, Routes, Route } from 'react-router-dom';
+import {
+  useSearchParams,
+  Outlet,
+  useParams,
+  useNavigate,
+} from 'react-router-dom';
 
 const App = () => {
   const [data, setData] = useState({ products: [] as Elem[], total: 0 });
@@ -17,6 +22,10 @@ const App = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
+
+  const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const dataTransfer = async (value: string) => {
     setLoading(true);
@@ -51,6 +60,12 @@ const App = () => {
     }
   };
 
+  const closeOnClick = () => {
+    if (id) {
+      navigate('/');
+    }
+  };
+
   useEffect(() => {
     dataTransfer(localStorage.getItem('prevSearch') || '');
   }, [searchParams]);
@@ -64,44 +79,49 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <header className={style.header}>
-        <div className={style.wrapper}>
-          <SearchBar dataTransfer={dataTransfer} />
-        </div>
-      </header>
-      <main className={style.main}>
-        <div className={style.buttonWrapper}>
-          <button
-            className={style.errorButton}
-            onClick={() => {
-              setError(true);
-            }}
-          >
-            Error
-          </button>
-        </div>
-        <div className={style.pagination}>
-          <PaginationControls
-            prevPage={prevPageHandler}
-            nextPage={nextPageHandler}
-            page={currentPage}
-            products={productsPerPage}
-            total={data.total}
-          />
-        </div>
-        <div className={`${style.wrapper} ${style.mainContainer}`}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Main data={data} loading={loading} firstLoad={firstLoad} />
-              }
+    <div className={style.app}>
+      <div
+        className={`${style.mainApp} ${id ? style.split : ''}`}
+        onClick={closeOnClick}
+      >
+        <header className={style.header}>
+          <div className={style.wrapper}>
+            <SearchBar dataTransfer={dataTransfer} />
+          </div>
+        </header>
+        <main className={style.main}>
+          <div className={style.buttonWrapper}>
+            <button
+              className={style.errorButton}
+              onClick={() => {
+                setError(true);
+              }}
+            >
+              Error
+            </button>
+          </div>
+          <div className={style.pagination}>
+            <PaginationControls
+              prevPage={prevPageHandler}
+              nextPage={nextPageHandler}
+              page={currentPage}
+              products={productsPerPage}
+              total={data.total}
             />
-          </Routes>
+          </div>
+          <div className={`${style.wrapper} ${style.mainContainer}`}>
+            <Main data={data} loading={loading} firstLoad={firstLoad} />
+          </div>
+        </main>
+      </div>
+      {id ? (
+        <div className={`${style.outlet} ${id ? style.split : ''}`}>
+          <Outlet />
         </div>
-      </main>
-    </>
+      ) : (
+        ''
+      )}
+    </div>
   );
 };
 

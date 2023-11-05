@@ -1,4 +1,5 @@
 export type Elem = {
+  id: number;
   price: number;
   title: string;
   description: string;
@@ -24,12 +25,9 @@ export type SearchProps = {
 };
 
 export type DataProps = {
+  id: number;
   title: string;
   description: string;
   price: number;
   thumbnail: string;
-};
-
-export type ProductPageProps = DataProps & {
-  id?: number;
 };
