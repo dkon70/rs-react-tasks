@@ -30,6 +30,7 @@ const PaginationControls = (props: PaginationProps) => {
     const itemsPerPageFromParams = Number(searchParams.get('productsPerPage'));
     if (!isNaN(itemsPerPageFromParams) && itemsPerPageFromParams >= 1) {
       setItemsPerPageValue(itemsPerPageFromParams);
+      setCurrentPage(1);
     } else {
       setItemsPerPageValue(5);
       setSearchParams({ ...searchParams, page: '1', productsPerPage: '5' });
