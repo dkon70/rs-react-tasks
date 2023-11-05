@@ -36,6 +36,14 @@ const PaginationControls = (props: PaginationProps) => {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    setSearchParams({
+      search: localStorage.getItem('prevSearch') || '',
+      page: String(currentPage) || '1',
+      productsPerPage: String(itemsPerPageValue) || '5',
+    });
+  }, [localStorage.getItem('prevSearch')]);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.items}>
@@ -57,9 +65,10 @@ const PaginationControls = (props: PaginationProps) => {
       </div>
       <div className={styles.page}>
         <Link
-          to={`/?page=${Math.max(1, page - 1)}&productsPerPage=${
-            itemsPerPageValue || 5
-          }`}
+          to={`/?search=${searchParams.get('search') || ''}&page=${Math.max(
+            1,
+            page - 1
+          )}&productsPerPage=${itemsPerPageValue || 5}`}
           className={`${styles.button} ${styles.buttonPrev} ${
             page === 1 ? styles.disabled : ''
           }`}
@@ -69,7 +78,7 @@ const PaginationControls = (props: PaginationProps) => {
         </Link>
         <p className={styles.pageNumber}>{page}</p>
         <Link
-          to={`/?page=${Math.min(
+          to={`/?search=${searchParams.get('search') || ''}&page=${Math.min(
             totalPages,
             page + 1
           )}&productsPerPage=${itemsPerPageValue}`}

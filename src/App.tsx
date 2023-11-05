@@ -15,7 +15,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [productsPerPage] = useState(5);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const dataTransfer = async (value: string) => {
@@ -54,6 +54,14 @@ const App = () => {
   useEffect(() => {
     dataTransfer(localStorage.getItem('prevSearch') || '');
   }, [searchParams]);
+
+  useEffect(() => {
+    setSearchParams({
+      search: localStorage.getItem('prevSearch') || '',
+      page: searchParams.get('page') || '1',
+      productsPerPage: searchParams.get('productsPerPage') || '5',
+    });
+  }, []);
 
   return (
     <>
