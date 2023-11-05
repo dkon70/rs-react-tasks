@@ -11,6 +11,7 @@ const ProductCard = (props: DataProps) => {
         to={`/${props.id}?search=${searchParams.get('search') || ''}&page=${
           searchParams.get('page') || '1'
         }&productsPerPage=${searchParams.get('productsPerPage') || '5'}`}
+        className={style.link}
       >
         <div className={style.wrapper}>
           <img
