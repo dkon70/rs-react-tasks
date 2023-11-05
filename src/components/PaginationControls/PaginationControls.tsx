@@ -18,7 +18,8 @@ const PaginationControls = (props: PaginationProps) => {
     });
   };
 
-  const totalPages = Math.floor(total / itemsPerPageValue);
+  const totalPages =
+    total >= itemsPerPageValue ? Math.floor(total / itemsPerPageValue) : 1;
 
   const pageChangeHandler = (newPage: number) => {
     setSearchParams({ ...searchParams, page: String(newPage) });
