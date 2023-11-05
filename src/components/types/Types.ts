@@ -29,3 +29,7 @@ export type DataProps = {
   price: number;
   thumbnail: string;
 };
+
+export type ProductPageProps = DataProps & {
+  id?: number;
+};
