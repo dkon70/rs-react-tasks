@@ -1,5 +1,5 @@
 import style from './ProductPage.module.scss';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import getItem from '../../scripts/getItem';
 import Loader from '../Loader/Loader';
@@ -10,6 +10,7 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState({} as DataProps);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +27,11 @@ const ProductPage = () => {
   }, [id]);
 
   const closePage = () => {
-    navigate('/');
+    navigate(
+      `/?search=${searchParams.get('search') || ''}&page=${
+        searchParams.get('page') || '1'
+      }&productsPerPage=${searchParams.get('productsPerPage') || '5'}`
+    );
   };
 
   return (

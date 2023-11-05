@@ -52,7 +52,7 @@ const PaginationControls = (props: PaginationProps) => {
           type="number"
           min={1}
           max={100}
-          value={itemsPerPageValue}
+          value={itemsPerPageValue || 5}
           onChange={(e) => setItemsPerPageValue(Number(e.target.value))}
         />
         <button

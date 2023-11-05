@@ -1,11 +1,17 @@
 import style from './ProductCard.module.scss';
 import { DataProps } from '../types/Types';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const ProductCard = (props: DataProps) => {
+  const [searchParams] = useSearchParams();
+
   return (
     <>
-      <Link to={`/${props.id}`}>
+      <Link
+        to={`/${props.id}?search=${searchParams.get('search') || ''}&page=${
+          searchParams.get('page') || '1'
+        }&productsPerPage=${searchParams.get('productsPerPage') || '5'}`}
+      >
         <div className={style.wrapper}>
           <img
             className={style.image}

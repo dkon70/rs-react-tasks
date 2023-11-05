@@ -32,7 +32,7 @@ const App = () => {
     localStorage.setItem('prevSearch', value);
     const data = await searchData(
       value,
-      Number(searchParams.get('productsPerPage')),
+      Number(searchParams.get('productsPerPage')) || 5,
       Number(searchParams.get('page')) === 1
         ? 0
         : Number(searchParams.get('page')) *
@@ -62,7 +62,11 @@ const App = () => {
 
   const closeOnClick = () => {
     if (id) {
-      navigate('/');
+      navigate(
+        `/?search=${searchParams.get('search') || ''}&page=${
+          searchParams.get('page') || '1'
+        }&productsPerPage=${searchParams.get('productsPerPage') || '5'}`
+      );
     }
   };
 
@@ -71,6 +75,7 @@ const App = () => {
   }, [searchParams]);
 
   useEffect(() => {
+    dataTransfer(localStorage.getItem('prevSearch') || '');
     setSearchParams({
       search: localStorage.getItem('prevSearch') || '',
       page: searchParams.get('page') || '1',
@@ -113,6 +118,7 @@ const App = () => {
             <Main data={data} loading={loading} firstLoad={firstLoad} />
           </div>
         </main>
+        {id ? <div className={style.shadow}></div> : ''}
       </div>
       {id ? (
         <div className={`${style.outlet} ${id ? style.split : ''}`}>
