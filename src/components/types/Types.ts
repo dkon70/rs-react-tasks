@@ -8,7 +8,6 @@ export type Elem = {
 export type PaginationProps = {
   prevPage(): void;
   nextPage(): void;
-  productsPerPage(e: React.ChangeEvent<HTMLInputElement>): void;
   page: number;
   products: number;
   total: number;

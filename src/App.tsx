@@ -1,10 +1,11 @@
 import style from './App.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
 import searchData from './scripts/search';
 import PaginationControls from './components/PaginationControls/PaginationControls';
 import Main from './pages/Main/Main';
 import { Elem } from './components/types/Types';
+import { useSearchParams, Routes, Route } from 'react-router-dom';
 
 const App = () => {
   const [data, setData] = useState({ products: [] as Elem[], total: 0 });
@@ -12,12 +13,23 @@ const App = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(5);
+  const [productsPerPage] = useState(5);
+
+  const [searchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
 
   const dataTransfer = async (value: string) => {
     setLoading(true);
     localStorage.setItem('prevSearch', value);
-    const data = await searchData(value);
+    const data = await searchData(
+      value,
+      Number(searchParams.get('productsPerPage')),
+      Number(searchParams.get('page')) === 1
+        ? 0
+        : Number(searchParams.get('page')) *
+            Number(searchParams.get('productsPerPage')) -
+            Number(searchParams.get('productsPerPage'))
+    );
     setData(data);
     setFirstLoad(false);
     setLoading(false);
@@ -39,10 +51,9 @@ const App = () => {
     }
   };
 
-  const productsPerPageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProductsPerPage(Number(e.target.value));
-    console.log(e.target.value);
-  };
+  useEffect(() => {
+    dataTransfer(localStorage.getItem('prevSearch') || '');
+  }, [searchParams]);
 
   return (
     <>
@@ -66,14 +77,20 @@ const App = () => {
           <PaginationControls
             prevPage={prevPageHandler}
             nextPage={nextPageHandler}
-            page={page}
-            productsPerPage={productsPerPageHandler}
+            page={currentPage}
             products={productsPerPage}
             total={data.total}
           />
         </div>
         <div className={`${style.wrapper} ${style.mainContainer}`}>
-          <Main data={data} loading={loading} firstLoad={firstLoad} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main data={data} loading={loading} firstLoad={firstLoad} />
+              }
+            />
+          </Routes>
         </div>
       </main>
     </>

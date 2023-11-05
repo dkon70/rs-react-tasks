@@ -1,40 +1,84 @@
-import style from './PaginationControls.module.scss';
+import styles from './PaginationControls.module.scss';
 import { PaginationProps } from '../types/Types';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const PaginationControls = (props: PaginationProps) => {
-  const { prevPage, nextPage, page, productsPerPage, products, total } = props;
+  const { page, products, total } = props;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(page);
+
+  const [itemsPerPageValue, setItemsPerPageValue] = useState(products);
+
+  const productsPerPageChangeHandler = () => {
+    setSearchParams({
+      search: localStorage.getItem('prevSearch') || '',
+      page: String(currentPage) || '1',
+      productsPerPage: String(itemsPerPageValue) || '5',
+    });
+  };
+
+  const totalPages = Math.ceil(total / products);
+
+  const pageChangeHandler = (newPage: number) => {
+    setSearchParams({ ...searchParams, page: String(newPage) });
+    setCurrentPage(newPage);
+  };
+
+  useEffect(() => {
+    const itemsPerPageFromParams = Number(searchParams.get('productsPerPage'));
+    if (!isNaN(itemsPerPageFromParams) && itemsPerPageFromParams >= 1) {
+      setItemsPerPageValue(itemsPerPageFromParams);
+    } else {
+      setItemsPerPageValue(5);
+      setSearchParams({ ...searchParams, page: '1', productsPerPage: '5' });
+    }
+  }, [searchParams]);
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.items}>
+    <div className={styles.wrapper}>
+      <div className={styles.items}>
         <h3>Items per page:</h3>
         <input
           type="number"
           min={1}
           max={100}
-          value={products}
-          onChange={productsPerPage}
+          value={itemsPerPageValue}
+          defaultValue={5}
+          onChange={(e) => setItemsPerPageValue(Number(e.target.value))}
         />
-        <button className={style.button}>Submit</button>
-      </div>
-      <div className={style.page}>
         <button
-          className={`${style.button} ${style.buttonPrev} ${
-            page === 1 ? style.disabled : ''
+          className={styles.button}
+          onClick={productsPerPageChangeHandler}
+        >
+          Submit
+        </button>
+      </div>
+      <div className={styles.page}>
+        <Link
+          to={`/?page=${Math.max(1, page - 1)}&productsPerPage=${
+            itemsPerPageValue || 5
           }`}
-          onClick={prevPage}
+          className={`${styles.button} ${styles.buttonPrev} ${
+            page === 1 ? styles.disabled : ''
+          }`}
+          onClick={() => pageChangeHandler(Math.max(1, page - 1))}
         >
           prev
-        </button>
-        <p className={style.pageNumber}>{page}</p>
-        <button
-          className={`${style.button} ${style.buttonNext} ${
-            Math.floor(total / products) === page ? style.disabled : ''
+        </Link>
+        <p className={styles.pageNumber}>{page}</p>
+        <Link
+          to={`/?page=${Math.min(
+            totalPages,
+            page + 1
+          )}&productsPerPage=${itemsPerPageValue}`}
+          className={`${styles.button} ${styles.buttonNext} ${
+            page === totalPages ? styles.disabled : ''
           }`}
-          onClick={nextPage}
+          onClick={() => pageChangeHandler(Math.min(totalPages, page + 1))}
         >
           next
-        </button>
+        </Link>
       </div>
     </div>
   );
