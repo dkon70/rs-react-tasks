@@ -1,16 +1,19 @@
 import Loader from '../../components/Loader/Loader';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { Elem, MainProps } from '../../components/types/Types';
+import { useAppContext } from '../../components/Context/Context';
 
 const Main = (props: MainProps) => {
-  const { loading, data, firstLoad } = props;
+  const { loading } = props;
+
+  const { dataContext } = useAppContext();
 
   return (
     <>
       {loading ? (
         <Loader />
-      ) : data.products && data.products.length > 0 ? (
-        data.products.map((el: Elem) => {
+      ) : dataContext.products && dataContext.products.length > 0 ? (
+        dataContext.products.map((el: Elem) => {
           return (
             <ProductCard
               key={el.title}
@@ -22,8 +25,6 @@ const Main = (props: MainProps) => {
             />
           );
         })
-      ) : firstLoad ? (
-        <h1></h1>
       ) : (
         <h1>No Data</h1>
       )}

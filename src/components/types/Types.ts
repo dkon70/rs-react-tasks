@@ -18,7 +18,7 @@ export type PaginationProps = {
 
 export type MainProps = {
   loading: boolean;
-  data: { products: Elem[]; total: number };
+  data?: { products: Elem[]; total: number };
   firstLoad: boolean;
 };
 
@@ -41,4 +41,19 @@ export type ErrorBoundaryState = {
 
 export type ErrorBoundaryProps = {
   children: ReactNode;
+};
+
+export type AppContextType = {
+  inputContext: string;
+  setInputContext: React.Dispatch<React.SetStateAction<string>>;
+  dataContext: Data;
+  setDataContext: React.Dispatch<React.SetStateAction<Data>>;
+};
+
+export type AppProviderProps = {
+  children: ReactNode;
+};
+
+export type Data = {
+  products: Elem[];
 };

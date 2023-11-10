@@ -11,6 +11,7 @@ import {
   useParams,
   useNavigate,
 } from 'react-router-dom';
+import { useAppContext } from './components/Context/Context';
 
 const App = () => {
   const [data, setData] = useState({ products: [] as Elem[], total: 0 });
@@ -27,9 +28,10 @@ const App = () => {
 
   const navigate = useNavigate();
 
+  const { setInputContext, setDataContext } = useAppContext();
+
   const dataTransfer = async (value: string) => {
     setLoading(true);
-    localStorage.setItem('prevSearch', value);
     const data = await searchData(
       value,
       Number(searchParams.get('productsPerPage')) || 5,
@@ -39,10 +41,15 @@ const App = () => {
             Number(searchParams.get('productsPerPage')) -
             Number(searchParams.get('productsPerPage'))
     );
+    setDataContext(data);
     setData(data);
     setFirstLoad(false);
     setLoading(false);
   };
+
+  useEffect(() => {
+    dataTransfer(localStorage.getItem('prevSearch') || '');
+  }, []);
 
   if (error) {
     throw new Error('Error');
@@ -71,7 +78,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    dataTransfer(localStorage.getItem('prevSearch') || '');
+    if (searchParams.has('search')) {
+      localStorage.setItem(
+        'prevSearch',
+        String(searchParams.get('search') || '')
+      );
+      dataTransfer(String(searchParams.get('search') || ''));
+      setInputContext(String(searchParams.get('search') || ''));
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -90,7 +104,7 @@ const App = () => {
       >
         <header className={style.header}>
           <div className={style.wrapper}>
-            <SearchBar dataTransfer={dataTransfer} />
+            <SearchBar />
           </div>
         </header>
         <main className={style.main}>
@@ -114,7 +128,7 @@ const App = () => {
             />
           </div>
           <div className={`${style.wrapper} ${style.mainContainer}`}>
-            <Main data={data} loading={loading} firstLoad={firstLoad} />
+            <Main loading={loading} firstLoad={firstLoad} />
           </div>
         </main>
         {id ? <div className={style.shadow}></div> : ''}
