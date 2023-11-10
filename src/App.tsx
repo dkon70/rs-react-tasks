@@ -49,7 +49,7 @@ const App = () => {
 
   useEffect(() => {
     dataTransfer(localStorage.getItem('prevSearch') || '');
-  }, []);
+  }, [])
 
   if (error) {
     throw new Error('Error');
@@ -79,13 +79,10 @@ const App = () => {
 
   useEffect(() => {
     if (searchParams.has('search')) {
-      localStorage.setItem(
-        'prevSearch',
-        String(searchParams.get('search') || '')
-      );
+      localStorage.setItem('prevSearch', String(searchParams.get('search') || ''));
       dataTransfer(String(searchParams.get('search') || ''));
-      setInputContext(String(searchParams.get('search') || ''));
-    }
+      setInputContext(String(searchParams.get('search') || ''))
+    }  
   }, [searchParams]);
 
   useEffect(() => {
