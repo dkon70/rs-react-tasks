@@ -7,14 +7,14 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<App />}>
+        <Route path="/" element={<App />}>
           <Route index element={<App />} />
-          <Route path=':id' element={<ProductPage />} />
+          <Route path=":id" element={<ProductPage />} />
         </Route>
-        <Route path='*' element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
 export default AppRouter;
