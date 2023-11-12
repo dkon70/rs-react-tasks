@@ -19,10 +19,6 @@ afterEach(() => {
 });
 afterAll(() => server.close());
 
-server.events.on('request:start', ({ request }) => {
-  console.log('MSW intercepted:', request.method, request.url);
-});
-
 describe('Tests for the Card component', () => {
   test('card component renders the relevant card data', () => {
     render(

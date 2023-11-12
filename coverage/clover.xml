@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1699741576282" clover="3.2.0">
-  <project timestamp="1699741576282" name="All files">
-    <metrics statements="187" coveredstatements="165" conditionals="17" coveredconditionals="14" methods="9" coveredmethods="7" elements="213" coveredelements="186" complexity="0" loc="187" ncloc="187" packages="7" files="8" classes="8"/>
+<coverage generated="1699776273989" clover="3.2.0">
+  <project timestamp="1699776273989" name="All files">
+    <metrics statements="187" coveredstatements="171" conditionals="22" coveredconditionals="17" methods="9" coveredmethods="8" elements="218" coveredelements="196" complexity="0" loc="187" ncloc="187" packages="7" files="8" classes="8"/>
     <package name="components.Context">
       <metrics statements="27" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="Context.tsx" path="C:\Users\dkon7\rs-school\rs-react-tasks\src\components\Context\Context.tsx">
@@ -42,60 +42,60 @@
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
       </file>
     </package>
     <package name="components.ProductCard">
-      <metrics statements="34" coveredstatements="34" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <metrics statements="34" coveredstatements="34" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
       <file name="ProductCard.tsx" path="C:\Users\dkon7\rs-school\rs-react-tasks\src\components\ProductCard\ProductCard.tsx">
-        <metrics statements="34" coveredstatements="34" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="34" coveredstatements="34" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="6" count="5" type="stmt"/>
-        <line num="7" count="5" type="stmt"/>
-        <line num="8" count="5" type="stmt"/>
-        <line num="9" count="5" type="stmt"/>
-        <line num="10" count="5" type="stmt"/>
-        <line num="11" count="5" type="stmt"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="13" count="5" type="stmt"/>
-        <line num="14" count="5" type="stmt"/>
-        <line num="15" count="5" type="stmt"/>
-        <line num="16" count="5" type="stmt"/>
-        <line num="17" count="5" type="stmt"/>
-        <line num="18" count="5" type="stmt"/>
-        <line num="19" count="5" type="stmt"/>
-        <line num="20" count="5" type="stmt"/>
-        <line num="21" count="5" type="stmt"/>
-        <line num="22" count="5" type="stmt"/>
-        <line num="23" count="5" type="stmt"/>
-        <line num="24" count="5" type="stmt"/>
-        <line num="25" count="5" type="stmt"/>
-        <line num="26" count="5" type="stmt"/>
-        <line num="27" count="5" type="stmt"/>
-        <line num="28" count="5" type="stmt"/>
-        <line num="29" count="5" type="stmt"/>
-        <line num="30" count="5" type="stmt"/>
-        <line num="31" count="5" type="stmt"/>
-        <line num="32" count="5" type="stmt"/>
+        <line num="6" count="7" type="stmt"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="8" count="7" type="stmt"/>
+        <line num="9" count="7" type="stmt"/>
+        <line num="10" count="7" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="13" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="7" type="stmt"/>
+        <line num="15" count="7" type="stmt"/>
+        <line num="16" count="7" type="stmt"/>
+        <line num="17" count="7" type="stmt"/>
+        <line num="18" count="7" type="stmt"/>
+        <line num="19" count="7" type="stmt"/>
+        <line num="20" count="7" type="stmt"/>
+        <line num="21" count="7" type="stmt"/>
+        <line num="22" count="7" type="stmt"/>
+        <line num="23" count="7" type="stmt"/>
+        <line num="24" count="7" type="stmt"/>
+        <line num="25" count="7" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="29" count="7" type="stmt"/>
+        <line num="30" count="7" type="stmt"/>
+        <line num="31" count="7" type="stmt"/>
+        <line num="32" count="7" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
       </file>
     </package>
     <package name="components.ProductPage">
-      <metrics statements="54" coveredstatements="46" conditionals="6" coveredconditionals="5" methods="3" coveredmethods="2"/>
+      <metrics statements="54" coveredstatements="52" conditionals="9" coveredconditionals="6" methods="3" coveredmethods="3"/>
       <file name="ProductPage.tsx" path="C:\Users\dkon7\rs-school\rs-react-tasks\src\components\ProductPage\ProductPage.tsx">
-        <metrics statements="54" coveredstatements="46" conditionals="6" coveredconditionals="5" methods="3" coveredmethods="2"/>
+        <metrics statements="54" coveredstatements="52" conditionals="9" coveredconditionals="6" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -104,50 +104,50 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="15" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="16" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="9" count="7" type="stmt"/>
+        <line num="10" count="7" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="14" count="7" type="stmt"/>
+        <line num="15" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="4" type="cond" truecount="0" falsecount="1"/>
         <line num="22" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="27" count="2" type="stmt"/>
-        <line num="28" count="2" type="stmt"/>
-        <line num="29" count="2" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="2" type="stmt"/>
-        <line num="37" count="2" type="stmt"/>
-        <line num="38" count="2" type="stmt"/>
-        <line num="39" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="40" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
-        <line num="49" count="2" type="stmt"/>
-        <line num="50" count="2" type="stmt"/>
-        <line num="51" count="2" type="stmt"/>
-        <line num="52" count="2" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="29" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="33" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="7" type="stmt"/>
+        <line num="37" count="7" type="stmt"/>
+        <line num="38" count="7" type="stmt"/>
+        <line num="39" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="40" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="42" count="3" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
+        <line num="44" count="3" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
+        <line num="46" count="3" type="stmt"/>
+        <line num="47" count="3" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
+        <line num="49" count="7" type="stmt"/>
+        <line num="50" count="7" type="stmt"/>
+        <line num="51" count="7" type="stmt"/>
+        <line num="52" count="7" type="stmt"/>
         <line num="53" count="1" type="stmt"/>
         <line num="54" count="1" type="stmt"/>
       </file>
@@ -198,10 +198,10 @@
       <file name="getItem.ts" path="C:\Users\dkon7\rs-school\rs-react-tasks\src\scripts\getItem.ts">
         <metrics statements="7" coveredstatements="7" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
       </file>
@@ -214,13 +214,13 @@
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
       </file>

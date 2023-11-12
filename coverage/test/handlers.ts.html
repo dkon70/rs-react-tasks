@@ -71,19 +71,21 @@
 <a name='L10'></a><a href='#L10'>10</a>
 <a name='L11'></a><a href='#L11'>11</a>
 <a name='L12'></a><a href='#L12'>12</a>
-<a name='L13'></a><a href='#L13'>13</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { http, HttpResponse } from 'msw';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { http, HttpResponse } from 'msw';
 &nbsp;
 export const handlers = [
   http.get('https://dummyjson.com/products/:id', () =&gt; {
@@ -92,10 +94,11 @@ export const handlers = [
       title: 'sup!',
       description: 'testDescription',
       thumbnail: 'http://test.test/test',
-      price: 500
-    })
-  })
-]</pre></td></tr></table></pre>
+      price: 500,
+    });
+  }),
+];
+&nbsp;</pre></td></tr></table></pre>
 
       <div class="push"></div>
       <!-- for sticky footer -->
@@ -109,7 +112,7 @@ export const handlers = [
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2023-11-11T22:26:16.253Z
+      at 2023-11-12T08:04:33.956Z
     </div>
     <script src="../prettify.js"></script>
     <script>
