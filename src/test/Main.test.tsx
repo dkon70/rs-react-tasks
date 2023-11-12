@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
 import Main from '../pages/Main/Main';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AppContext } from '../components/Context/Context';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -57,7 +57,7 @@ describe('Tests for the Card List component', () => {
       products: [],
     };
 
-    const { container } = render(
+    render(
       <BrowserRouter>
         <AppContext.Provider
           value={{
@@ -72,8 +72,8 @@ describe('Tests for the Card List component', () => {
       </BrowserRouter>
     );
 
-    const message = container.querySelector('h1')?.innerHTML;
+    const message = screen.getByText('No Data');
 
-    expect(message).toBe('No Data');
+    expect(message).toBeInTheDocument();
   });
 });
