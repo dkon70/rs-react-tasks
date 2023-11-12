@@ -31,6 +31,7 @@ const SearchBar = () => {
   useEffect(() => {
     if (localStorage.getItem('prevSearch')) {
       setInputContext(String(localStorage.getItem('prevSearch')));
+      setInputValue(String(localStorage.getItem('prevSearch')));
     } else {
       setInputContext('');
     }
@@ -45,8 +46,13 @@ const SearchBar = () => {
         onChange={inputHandler}
         onKeyDown={keyPressHandler}
         value={inputValue}
+        data-testid="input"
       />
-      <button className={style.button} onClick={submitHandler}>
+      <button
+        className={style.button}
+        onClick={submitHandler}
+        data-testid="button"
+      >
         Search
       </button>
     </div>
