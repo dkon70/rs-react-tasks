@@ -89,4 +89,33 @@ describe('Tests for the Detailed Card component', () => {
       expect(button).not.toBeInTheDocument();
     });
   });
+
+  test('path displays correctly', () => {
+    render(
+      <BrowserRouter>
+        <Routes>
+          <Route path="/">
+            <Route
+              index
+              element={
+                <ProductCard
+                  id={data.id}
+                  title={data.title}
+                  description={data.description}
+                  thumbnail={data.thumbnail}
+                  price={data.price}
+                />
+              }
+            />
+            <Route path="/:id" element={<ProductPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    );
+
+    const card = screen.getByTestId('card');
+    fireEvent.click(card);
+
+    expect(global.location.pathname).toBe('/1');
+  });
 });
