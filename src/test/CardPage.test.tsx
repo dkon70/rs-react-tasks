@@ -4,14 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProductPage from '../components/ProductPage/ProductPage';
 import { server } from './server';
-
-const data = {
-  id: 1,
-  title: 'testTitle',
-  description: 'testDescription',
-  thumbnail: 'http://test.test/test',
-  price: 500,
-};
+import { data } from './mockData';
 
 beforeAll(() => server.listen());
 afterEach(() => {
