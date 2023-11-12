@@ -21,15 +21,13 @@ describe('Tests for the Detailed Card component', () => {
             <Route
               index
               element={
-                <div data-testid="card">
-                  <ProductCard
-                    id={data.id}
-                    title={data.title}
-                    description={data.description}
-                    thumbnail={data.thumbnail}
-                    price={data.price}
-                  />
-                </div>
+                <ProductCard
+                  id={data.id}
+                  title={data.title}
+                  description={data.description}
+                  thumbnail={data.thumbnail}
+                  price={data.price}
+                />
               }
             />
             <Route path="/:id" element={<ProductPage />} />
@@ -39,7 +37,7 @@ describe('Tests for the Detailed Card component', () => {
     );
 
     const card = screen.getByTestId('card');
-    fireEvent.click(card.firstChild!);
+    fireEvent.click(card);
 
     const loader = screen.getByText('Loading...');
     expect(loader).toBeInTheDocument();
@@ -70,15 +68,13 @@ describe('Tests for the Detailed Card component', () => {
             <Route
               index
               element={
-                <div data-testid="card">
-                  <ProductCard
-                    id={data.id}
-                    title={data.title}
-                    description={data.description}
-                    thumbnail={data.thumbnail}
-                    price={data.price}
-                  />
-                </div>
+                <ProductCard
+                  id={data.id}
+                  title={data.title}
+                  description={data.description}
+                  thumbnail={data.thumbnail}
+                  price={data.price}
+                />
               }
             />
             <Route path="/:id" element={<ProductPage />} />

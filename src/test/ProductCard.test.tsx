@@ -12,6 +12,12 @@ afterEach(() => {
 });
 afterAll(() => server.close());
 
+let req: string;
+
+server.events.on('request:start', ({ request }) => {
+  req = request.method;
+});
+
 describe('Tests for the Card component', () => {
   test('card component renders the relevant card data', () => {
     render(
@@ -41,15 +47,13 @@ describe('Tests for the Card component', () => {
             <Route
               index
               element={
-                <div data-testid="card">
-                  <ProductCard
-                    id={data.id}
-                    title={data.title}
-                    description={data.description}
-                    thumbnail={data.thumbnail}
-                    price={data.price}
-                  />
-                </div>
+                <ProductCard
+                  id={data.id}
+                  title={data.title}
+                  description={data.description}
+                  thumbnail={data.thumbnail}
+                  price={data.price}
+                />
               }
             />
             <Route path="/:id" element={<ProductPage />} />
@@ -59,10 +63,14 @@ describe('Tests for the Card component', () => {
     );
 
     const card = screen.getByTestId('card');
-    fireEvent.click(card.firstChild!);
+    fireEvent.click(card);
 
     await waitFor(() => {
       expect(screen.getByText('sup!')).toBeInTheDocument();
     });
+  });
+
+  test('clicking triggers an additional API call to fetch detailed information', async () => {
+    expect(req).toBe('GET');
   });
 });

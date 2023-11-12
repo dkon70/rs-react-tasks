@@ -13,7 +13,7 @@ const ProductCard = (props: DataProps) => {
         }&productsPerPage=${searchParams.get('productsPerPage') || '5'}`}
         className={style.link}
       >
-        <div className={style.wrapper}>
+        <div className={style.wrapper} data-testid="card">
           <img
             className={style.image}
             src={props.thumbnail}
