@@ -7,7 +7,6 @@ import { mockContextData } from './mockContextData';
 
 describe('Tests for the Card List component', () => {
   test('renders the specified number of cards', () => {
-
     const { container } = render(
       <BrowserRouter>
         <AppContext.Provider

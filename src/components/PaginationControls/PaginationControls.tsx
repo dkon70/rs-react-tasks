@@ -86,6 +86,7 @@ const PaginationControls = (props: PaginationProps) => {
             page === totalPages ? styles.disabled : ''
           }`}
           onClick={() => pageChangeHandler(Math.min(totalPages, page + 1))}
+          data-testid="nextButton"
         >
           next
         </Link>
