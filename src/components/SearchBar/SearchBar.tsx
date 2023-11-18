@@ -2,7 +2,9 @@ import style from './SearchBar.module.scss';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useAppContext } from '../Context/Context';
+// import { useAppContext } from '../Context/Context';
+import { useDispatch } from 'react-redux';
+import { setInputContext } from '../../redux/inputSlice';
 
 const SearchBar = () => {
   const [searchParams] = useSearchParams();
@@ -10,7 +12,9 @@ const SearchBar = () => {
     searchParams.get('search') || ''
   );
 
-  const { setInputContext } = useAppContext();
+  // const { setInputContext } = useAppContext();
+
+  const dispatch = useDispatch();
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -18,7 +22,7 @@ const SearchBar = () => {
 
   const submitHandler = () => {
     localStorage.setItem('prevSearch', inputValue);
-    setInputContext(inputValue);
+    dispatch(setInputContext(inputValue));
     setInputValue('');
   };
 
@@ -30,10 +34,11 @@ const SearchBar = () => {
 
   useEffect(() => {
     if (localStorage.getItem('prevSearch')) {
-      setInputContext(String(localStorage.getItem('prevSearch')));
+      // setInputContext(String(localStorage.getItem('prevSearch')));
+      dispatch(setInputContext(String(localStorage.getItem('prevSearch'))));
       setInputValue(String(localStorage.getItem('prevSearch')));
     } else {
-      setInputContext('');
+      dispatch(setInputContext(''));
     }
   }, []);
 

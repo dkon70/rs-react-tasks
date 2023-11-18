@@ -12,6 +12,9 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { useAppContext } from './components/Context/Context';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInputContext } from './redux/inputSlice';
+import { RootState } from './redux/store';
 
 const App = () => {
   const [data, setData] = useState({ products: [] as Elem[], total: 0 });
@@ -28,7 +31,12 @@ const App = () => {
 
   const navigate = useNavigate();
 
-  const { setInputContext, setDataContext } = useAppContext();
+  const { setDataContext } = useAppContext();
+
+  const dispatch = useDispatch();
+  const inputContext = useSelector(
+    (state: RootState) => state.input.inputContext
+  );
 
   const dataTransfer = async (value: string) => {
     setLoading(true);
@@ -50,6 +58,10 @@ const App = () => {
   useEffect(() => {
     dataTransfer(localStorage.getItem('prevSearch') || '');
   }, []);
+
+  useEffect(() => {
+    dataTransfer(inputContext);
+  }, [inputContext]);
 
   if (error) {
     throw new Error('Error');
@@ -84,7 +96,7 @@ const App = () => {
         String(searchParams.get('search') || '')
       );
       dataTransfer(String(searchParams.get('search') || ''));
-      setInputContext(String(searchParams.get('search') || ''));
+      dispatch(setInputContext(String(searchParams.get('search') || '')));
     }
   }, [searchParams]);
 

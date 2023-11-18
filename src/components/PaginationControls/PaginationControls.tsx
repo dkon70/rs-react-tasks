@@ -2,24 +2,30 @@ import styles from './PaginationControls.module.scss';
 import { PaginationProps } from '../types/Types';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProductsPerPage } from '../../redux/perPageSlice';
+import { RootState } from '../../redux/store';
 
 const PaginationControls = (props: PaginationProps) => {
-  const { page, products, total } = props;
+  const { page, total } = props;
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(page);
 
-  const [itemsPerPageValue, setItemsPerPageValue] = useState(products);
+  const dispatch = useDispatch();
+  const perPage = useSelector(
+    (state: RootState) => state.perPage.productsPerPage
+  );
 
   const productsPerPageChangeHandler = () => {
     setSearchParams({
       search: localStorage.getItem('prevSearch') || '',
       page: String(currentPage) || '1',
-      productsPerPage: String(itemsPerPageValue) || '5',
+      productsPerPage: String(perPage),
     });
+    dispatch(setProductsPerPage(Number(searchParams.get('productsPerPage'))));
   };
 
-  const totalPages =
-    total >= itemsPerPageValue ? Math.floor(total / itemsPerPageValue) : 1;
+  const totalPages = total >= perPage ? Math.floor(total / perPage) : 1;
 
   const pageChangeHandler = (newPage: number) => {
     setSearchParams({ ...searchParams, page: String(newPage) });
@@ -29,10 +35,10 @@ const PaginationControls = (props: PaginationProps) => {
   useEffect(() => {
     const itemsPerPageFromParams = Number(searchParams.get('productsPerPage'));
     if (!isNaN(itemsPerPageFromParams) && itemsPerPageFromParams >= 1) {
-      setItemsPerPageValue(itemsPerPageFromParams);
+      dispatch(setProductsPerPage(itemsPerPageFromParams));
       setCurrentPage(1);
     } else {
-      setItemsPerPageValue(5);
+      dispatch(setProductsPerPage(5));
       setSearchParams({ ...searchParams, page: '1', productsPerPage: '5' });
     }
   }, [searchParams]);
@@ -41,7 +47,7 @@ const PaginationControls = (props: PaginationProps) => {
     setSearchParams({
       search: localStorage.getItem('prevSearch') || '',
       page: String(currentPage) || '1',
-      productsPerPage: String(itemsPerPageValue) || '5',
+      productsPerPage: String(perPage) || '5',
     });
   }, [localStorage.getItem('prevSearch')]);
 
@@ -53,8 +59,8 @@ const PaginationControls = (props: PaginationProps) => {
           type="number"
           min={1}
           max={100}
-          value={itemsPerPageValue || 5}
-          onChange={(e) => setItemsPerPageValue(Number(e.target.value))}
+          value={perPage || 5}
+          onChange={(e) => dispatch(setProductsPerPage(Number(e.target.value)))}
         />
         <button
           className={styles.button}
@@ -68,7 +74,7 @@ const PaginationControls = (props: PaginationProps) => {
           to={`/?search=${searchParams.get('search') || ''}&page=${Math.max(
             1,
             page - 1
-          )}&productsPerPage=${itemsPerPageValue || 5}`}
+          )}&productsPerPage=${perPage || 5}`}
           className={`${styles.button} ${styles.buttonPrev} ${
             page === 1 ? styles.disabled : ''
           }`}
@@ -81,7 +87,7 @@ const PaginationControls = (props: PaginationProps) => {
           to={`/?search=${searchParams.get('search') || ''}&page=${Math.min(
             totalPages,
             page + 1
-          )}&productsPerPage=${itemsPerPageValue}`}
+          )}&productsPerPage=${perPage}`}
           className={`${styles.button} ${styles.buttonNext} ${
             page === totalPages ? styles.disabled : ''
           }`}

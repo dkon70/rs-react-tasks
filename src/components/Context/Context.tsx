@@ -4,13 +4,10 @@ import { AppContextType, AppProviderProps, Data } from '../types/Types';
 const AppContext = createContext<AppContextType | null>(null);
 
 const AppProvider = ({ children }: AppProviderProps) => {
-  const [inputContext, setInputContext] = useState('');
   const [dataContext, setDataContext] = useState<Data>({ products: [] });
 
   return (
-    <AppContext.Provider
-      value={{ inputContext, setInputContext, dataContext, setDataContext }}
-    >
+    <AppContext.Provider value={{ dataContext, setDataContext }}>
       {children}
     </AppContext.Provider>
   );

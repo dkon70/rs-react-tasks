@@ -44,8 +44,6 @@ export type ErrorBoundaryProps = {
 };
 
 export type AppContextType = {
-  inputContext: string;
-  setInputContext: React.Dispatch<React.SetStateAction<string>>;
   dataContext: Data;
   setDataContext: React.Dispatch<React.SetStateAction<Data>>;
 };
