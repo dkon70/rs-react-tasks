@@ -1,9 +1,16 @@
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, beforeAll, afterAll, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
+import { server } from './server';
+
+beforeAll(() => server.listen());
+afterEach(() => {
+  server.resetHandlers();
+});
+afterAll(() => server.close());
 
 describe('Tests for the App component', () => {
   test('app set default query params on load', () => {

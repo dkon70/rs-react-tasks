@@ -50,4 +50,5 @@ export const mockContextData = {
       price: 70,
     },
   ],
+  total: 7,
 };

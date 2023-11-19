@@ -147,7 +147,11 @@ const App = () => {
             />
           </div>
           <div className={`${style.wrapper} ${style.mainContainer}`}>
-            <Main firstLoad={firstLoad} data={{ products, total }} />
+            <Main
+              loading={isFetching}
+              firstLoad={firstLoad}
+              data={{ products, total }}
+            />
           </div>
         </main>
         {id ? <div className={style.shadow}></div> : ''}

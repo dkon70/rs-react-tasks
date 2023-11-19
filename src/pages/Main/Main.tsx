@@ -1,13 +1,9 @@
 import Loader from '../../components/Loader/Loader';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { Elem, MainProps } from '../../components/types/Types';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 
 const Main = (props: MainProps) => {
-  const { data } = props;
-
-  const loading = useSelector((state: RootState) => state.searchLoader.loader);
+  const { data, loading } = props;
 
   return (
     <>
