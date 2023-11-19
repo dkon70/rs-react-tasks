@@ -4,6 +4,7 @@ import perPageReducer from './perPageSlice';
 import { api } from './api';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import searchLoaderReducer from './searchLoader';
+import productLoaderReducer from './productLoader';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     perPage: perPageReducer,
     [api.reducerPath]: api.reducer,
     searchLoader: searchLoaderReducer,
+    productLoader: productLoaderReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),

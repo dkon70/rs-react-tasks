@@ -9,7 +9,7 @@ const searchLoaderInitialState: SearchState = {
 };
 
 const searchLoader = createSlice({
-  name: 'perPage',
+  name: 'searchLoader',
   initialState: searchLoaderInitialState,
   reducers: {
     setSearchLoader: (state, action: PayloadAction<boolean>) => {

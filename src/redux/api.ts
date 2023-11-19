@@ -14,8 +14,8 @@ export const api = createApi({
         `search?q=${name}&limit=${limit}&skip=${skip}`,
     }),
     getItem: builder.query<Elem, { id: number }>({
-      query: ({ id }) =>  `${id}`
-    })
+      query: ({ id }) => `${id}`,
+    }),
   }),
 });
 

@@ -2,6 +2,11 @@ import style from './ProductPage.module.scss';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import { useGetItemQuery } from '../../redux/api';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setProductLoader } from '../../redux/productLoader';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { RootState } from '../../redux/store';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -18,18 +23,33 @@ const ProductPage = () => {
     );
   };
 
+  const dispatch = useDispatch();
+  const productLoader = useSelector(
+    (state: RootState) => state.productLoader.loader
+  );
+
+  useEffect(() => {
+    dispatch(setProductLoader(isFetching));
+  }, [isFetching]);
+
+  useEffect(() => {
+    console.log(productLoader);
+  }, [productLoader]);
+
   return (
     <>
-      {isFetching ? (
+      {productLoader ? (
         <Loader />
-      ) : (
+      ) : data ? (
         <div className={style.wrapper}>
-          <img src={data!.thumbnail} alt={data!.title} />
-          <h1>{data!.title}</h1>
-          <p>{data!.description}</p>
-          <p>{data!.price}$</p>
+          <img src={data.thumbnail} alt={data.title} />
+          <h1>{data.title}</h1>
+          <p>{data.description}</p>
+          <p>{data.price}$</p>
           <button onClick={closePage}>Close</button>
         </div>
+      ) : (
+        <h3>No data...</h3>
       )}
     </>
   );
