@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
 import PaginationControls from './components/PaginationControls/PaginationControls';
 import Main from './pages/Main/Main';
-import { Elem } from './components/types/Types';
 import {
   useSearchParams,
   Outlet,
@@ -17,7 +16,6 @@ import { useGetProductQuery } from './redux/api';
 import { setSearchLoader } from './redux/searchLoader';
 
 const App = () => {
-  const [data, setData] = useState({ products: [] as Elem[], total: 0 });
   const [firstLoad, setFirstLoad] = useState(true);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
@@ -35,11 +33,7 @@ const App = () => {
     (state: RootState) => state.input.inputContext
   );
 
-  const {
-    data: apiData,
-    refetch,
-    isFetching,
-  } = useGetProductQuery({
+  const { data, refetch, isFetching } = useGetProductQuery({
     name: inputContext,
     limit: Number(searchParams.get('productsPerPage')) || 5,
     skip:
@@ -50,24 +44,26 @@ const App = () => {
           Number(searchParams.get('productsPerPage')),
   });
 
-  const { products = [], total = 0 } = apiData || {};
+  const { products = [], total = 0 } = data || {};
 
-  const dataTransfer = () => {
-    refetch();
-    setData(data);
+  const firstLoadHandler = () => {
     setFirstLoad(false);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [searchParams.get('productsPerPage'), searchParams.get('search')]);
 
   useEffect(() => {
     dispatch(setSearchLoader(isFetching));
   }, [isFetching]);
 
   useEffect(() => {
-    dataTransfer();
+    firstLoadHandler();
   }, []);
 
   useEffect(() => {
-    dataTransfer();
+    firstLoadHandler();
   }, [inputContext]);
 
   if (error) {
@@ -81,7 +77,7 @@ const App = () => {
   };
 
   const nextPageHandler = () => {
-    if (data.total / productsPerPage > page) {
+    if (data && data.total / productsPerPage > page) {
       setPage(page + 1);
     }
   };
@@ -102,7 +98,7 @@ const App = () => {
         'prevSearch',
         String(searchParams.get('search') || '')
       );
-      dataTransfer();
+      firstLoadHandler();
       dispatch(setInputContext(String(searchParams.get('search') || '')));
     }
   }, [searchParams]);
