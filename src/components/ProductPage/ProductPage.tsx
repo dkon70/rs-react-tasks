@@ -1,30 +1,14 @@
 import style from './ProductPage.module.scss';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import getItem from '../../scripts/getItem';
 import Loader from '../Loader/Loader';
-import { DataProps } from '../types/Types';
+import { useGetItemQuery } from '../../redux/api';
 
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [details, setDetails] = useState({} as DataProps);
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const details = await getItem(Number(id));
-        setDetails(details);
-        setLoading(false);
-      } catch (error) {
-        throw new Error();
-      }
-    };
-
-    fetchData();
-  }, [id]);
+  const { data, isFetching } = useGetItemQuery({ id: Number(id) });
 
   const closePage = () => {
     navigate(
@@ -36,14 +20,14 @@ const ProductPage = () => {
 
   return (
     <>
-      {loading ? (
+      {isFetching ? (
         <Loader />
       ) : (
         <div className={style.wrapper}>
-          <img src={details.thumbnail} alt={details.title} />
-          <h1>{details.title}</h1>
-          <p>{details.description}</p>
-          <p>{details.price}$</p>
+          <img src={data!.thumbnail} alt={data!.title} />
+          <h1>{data!.title}</h1>
+          <p>{data!.description}</p>
+          <p>{data!.price}$</p>
           <button onClick={closePage}>Close</button>
         </div>
       )}

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Data } from '../components/types/Types';
+import { Elem } from '../components/types/Types';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -12,7 +13,10 @@ export const api = createApi({
       query: ({ name, limit, skip }) =>
         `search?q=${name}&limit=${limit}&skip=${skip}`,
     }),
+    getItem: builder.query<Elem, { id: number }>({
+      query: ({ id }) =>  `${id}`
+    })
   }),
 });
 
-export const { useGetProductQuery } = api;
+export const { useGetProductQuery, useGetItemQuery } = api;
