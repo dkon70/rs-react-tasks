@@ -31,10 +31,6 @@ const ProductPage = () => {
     dispatch(setProductLoader(isFetching));
   }, [isFetching]);
 
-  useEffect(() => {
-    console.log(productLoader);
-  }, [productLoader]);
-
   return (
     <>
       {productLoader ? (
