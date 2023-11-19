@@ -16,7 +16,6 @@ import { useGetProductQuery } from './redux/api';
 import { setSearchLoader } from './redux/searchLoader';
 
 const App = () => {
-  const [firstLoad, setFirstLoad] = useState(true);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [productsPerPage] = useState(5);
@@ -46,10 +45,6 @@ const App = () => {
 
   const { products = [], total = 0 } = data || {};
 
-  const firstLoadHandler = () => {
-    setFirstLoad(false);
-  };
-
   useEffect(() => {
     refetch();
   }, [searchParams.get('productsPerPage'), searchParams.get('search')]);
@@ -57,14 +52,6 @@ const App = () => {
   useEffect(() => {
     dispatch(setSearchLoader(isFetching));
   }, [isFetching]);
-
-  useEffect(() => {
-    firstLoadHandler();
-  }, []);
-
-  useEffect(() => {
-    firstLoadHandler();
-  }, [inputContext]);
 
   if (error) {
     throw new Error('Error');
@@ -98,7 +85,7 @@ const App = () => {
         'prevSearch',
         String(searchParams.get('search') || '')
       );
-      firstLoadHandler();
+
       dispatch(setInputContext(String(searchParams.get('search') || '')));
     }
   }, [searchParams]);
@@ -143,11 +130,7 @@ const App = () => {
             />
           </div>
           <div className={`${style.wrapper} ${style.mainContainer}`}>
-            <Main
-              loading={isFetching}
-              firstLoad={firstLoad}
-              data={{ products, total }}
-            />
+            <Main loading={isFetching} data={{ products, total }} />
           </div>
         </main>
         {id ? <div className={style.shadow}></div> : ''}

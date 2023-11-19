@@ -18,7 +18,7 @@ describe('Tests for the Card List component', () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <Main loading={false} firstLoad={false} data={mockContextData} />
+          <Main loading={false} data={mockContextData} />
         </Provider>
       </BrowserRouter>
     );
@@ -33,7 +33,7 @@ describe('Tests for the Card List component', () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <Main loading={false} firstLoad={true} />
+          <Main loading={false} />
         </Provider>
       </BrowserRouter>
     );
