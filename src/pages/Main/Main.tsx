@@ -1,12 +1,15 @@
 import Loader from '../../components/Loader/Loader';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { Elem, MainProps } from '../../components/types/Types';
-import { useAppContext } from '../../components/Context/Context';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { RootState } from '../../redux/store';
 
 const Main = (props: MainProps) => {
-  const { loading } = props;
+  const { data } = props;
 
-  const { dataContext } = useAppContext();
+  const dataContext = data!;
+
+  const loading = useSelector((state: RootState) => state.searchLoader.loader);
 
   return (
     <>

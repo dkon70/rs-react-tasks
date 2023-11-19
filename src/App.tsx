@@ -1,7 +1,6 @@
 import style from './App.module.scss';
 import { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
-import searchData from './scripts/search';
 import PaginationControls from './components/PaginationControls/PaginationControls';
 import Main from './pages/Main/Main';
 import { Elem } from './components/types/Types';
@@ -11,16 +10,16 @@ import {
   useParams,
   useNavigate,
 } from 'react-router-dom';
-import { useAppContext } from './components/Context/Context';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInputContext } from './redux/inputSlice';
 import { RootState } from './redux/store';
+import { useGetProductQuery } from './redux/api';
+import { setSearchLoader } from './redux/searchLoader';
 
 const App = () => {
   const [data, setData] = useState({ products: [] as Elem[], total: 0 });
   const [firstLoad, setFirstLoad] = useState(true);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [productsPerPage] = useState(5);
 
@@ -31,36 +30,44 @@ const App = () => {
 
   const navigate = useNavigate();
 
-  const { setDataContext } = useAppContext();
-
   const dispatch = useDispatch();
   const inputContext = useSelector(
     (state: RootState) => state.input.inputContext
   );
 
-  const dataTransfer = async (value: string) => {
-    setLoading(true);
-    const data = await searchData(
-      value,
-      Number(searchParams.get('productsPerPage')) || 5,
+  const {
+    data: apiData,
+    refetch,
+    isFetching,
+  } = useGetProductQuery({
+    name: inputContext,
+    limit: Number(searchParams.get('productsPerPage')) || 5,
+    skip:
       Number(searchParams.get('page')) === 1
         ? 0
         : Number(searchParams.get('page')) *
             Number(searchParams.get('productsPerPage')) -
-            Number(searchParams.get('productsPerPage'))
-    );
-    setDataContext(data);
+          Number(searchParams.get('productsPerPage')),
+  });
+
+  const { products = [], total = 0 } = apiData || {};
+
+  const dataTransfer = () => {
+    refetch();
     setData(data);
     setFirstLoad(false);
-    setLoading(false);
   };
 
   useEffect(() => {
-    dataTransfer(localStorage.getItem('prevSearch') || '');
+    dispatch(setSearchLoader(isFetching));
+  }, [isFetching]);
+
+  useEffect(() => {
+    dataTransfer();
   }, []);
 
   useEffect(() => {
-    dataTransfer(inputContext);
+    dataTransfer();
   }, [inputContext]);
 
   if (error) {
@@ -95,7 +102,7 @@ const App = () => {
         'prevSearch',
         String(searchParams.get('search') || '')
       );
-      dataTransfer(String(searchParams.get('search') || ''));
+      dataTransfer();
       dispatch(setInputContext(String(searchParams.get('search') || '')));
     }
   }, [searchParams]);
@@ -136,11 +143,11 @@ const App = () => {
               nextPage={nextPageHandler}
               page={currentPage}
               products={productsPerPage}
-              total={data.total}
+              total={total}
             />
           </div>
           <div className={`${style.wrapper} ${style.mainContainer}`}>
-            <Main loading={loading} firstLoad={firstLoad} />
+            <Main firstLoad={firstLoad} data={{ products, total }} />
           </div>
         </main>
         {id ? <div className={style.shadow}></div> : ''}
