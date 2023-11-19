@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProductPage from '../components/ProductPage/ProductPage';
 import { server } from './server';
 import { data } from './mockData';
+import { store } from '../redux/store';
+import { Provider } from 'react-redux';
 
 beforeAll(() => server.listen());
 afterEach(() => {
@@ -16,23 +18,25 @@ describe('Tests for the Detailed Card component', () => {
   test('loading indicator is displayed while fetching data', async () => {
     render(
       <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={
-                <ProductCard
-                  id={data.id}
-                  title={data.title}
-                  description={data.description}
-                  thumbnail={data.thumbnail}
-                  price={data.price}
-                />
-              }
-            />
-            <Route path="/:id" element={<ProductPage />} />
-          </Route>
-        </Routes>
+        <Provider store={store}>
+          <Routes>
+            <Route path="/">
+              <Route
+                index
+                element={
+                  <ProductCard
+                    id={data.id}
+                    title={data.title}
+                    description={data.description}
+                    thumbnail={data.thumbnail}
+                    price={data.price}
+                  />
+                }
+              />
+              <Route path="/:id" element={<ProductPage />} />
+            </Route>
+          </Routes>
+        </Provider>
       </BrowserRouter>
     );
 
@@ -46,7 +50,9 @@ describe('Tests for the Detailed Card component', () => {
   test('detailed card component correctly displays the detailed card data', async () => {
     render(
       <BrowserRouter>
-        <ProductPage />
+        <Provider store={store}>
+          <ProductPage />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -63,23 +69,25 @@ describe('Tests for the Detailed Card component', () => {
   test('clicking the close button hides the component', async () => {
     render(
       <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={
-                <ProductCard
-                  id={data.id}
-                  title={data.title}
-                  description={data.description}
-                  thumbnail={data.thumbnail}
-                  price={data.price}
-                />
-              }
-            />
-            <Route path="/:id" element={<ProductPage />} />
-          </Route>
-        </Routes>
+        <Provider store={store}>
+          <Routes>
+            <Route path="/">
+              <Route
+                index
+                element={
+                  <ProductCard
+                    id={data.id}
+                    title={data.title}
+                    description={data.description}
+                    thumbnail={data.thumbnail}
+                    price={data.price}
+                  />
+                }
+              />
+              <Route path="/:id" element={<ProductPage />} />
+            </Route>
+          </Routes>
+        </Provider>
       </BrowserRouter>
     );
 
@@ -93,23 +101,25 @@ describe('Tests for the Detailed Card component', () => {
   test('path displays correctly', () => {
     render(
       <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={
-                <ProductCard
-                  id={data.id}
-                  title={data.title}
-                  description={data.description}
-                  thumbnail={data.thumbnail}
-                  price={data.price}
-                />
-              }
-            />
-            <Route path="/:id" element={<ProductPage />} />
-          </Route>
-        </Routes>
+        <Provider store={store}>
+          <Routes>
+            <Route path="/">
+              <Route
+                index
+                element={
+                  <ProductCard
+                    id={data.id}
+                    title={data.title}
+                    description={data.description}
+                    thumbnail={data.thumbnail}
+                    price={data.price}
+                  />
+                }
+              />
+              <Route path="/:id" element={<ProductPage />} />
+            </Route>
+          </Routes>
+        </Provider>
       </BrowserRouter>
     );
 

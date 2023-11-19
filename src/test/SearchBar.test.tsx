@@ -2,23 +2,16 @@ import { describe, test, expect } from 'vitest';
 import SearchBar from '../components/SearchBar/SearchBar';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { AppContext } from '../components/Context/Context';
-import { mockContextData } from './mockContextData';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
 
 describe('Tests for the Search component', () => {
   test('clicking the Search button saves the entered value to the local storage', () => {
     render(
       <BrowserRouter>
-        <AppContext.Provider
-          value={{
-            inputContext: '',
-            setInputContext: () => {},
-            dataContext: mockContextData,
-            setDataContext: () => {},
-          }}
-        >
+        <Provider store={store}>
           <SearchBar />
-        </AppContext.Provider>
+        </Provider>
       </BrowserRouter>
     );
     const input = screen.getByTestId('input') as HTMLInputElement;
@@ -33,16 +26,9 @@ describe('Tests for the Search component', () => {
 
     render(
       <BrowserRouter>
-        <AppContext.Provider
-          value={{
-            inputContext: '',
-            setInputContext: () => {},
-            dataContext: mockContextData,
-            setDataContext: () => {},
-          }}
-        >
+        <Provider store={store}>
           <SearchBar />
-        </AppContext.Provider>
+        </Provider>
       </BrowserRouter>
     );
 

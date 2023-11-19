@@ -1,25 +1,18 @@
 import { describe, test, expect } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import { AppContext } from '../components/Context/Context';
-import { mockContextData } from './mockContextData';
 import App from '../App';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
 
 describe('Tests for the App component', () => {
   test('app set default query params on load', () => {
     render(
-      <BrowserRouter>
-        <AppContext.Provider
-          value={{
-            inputContext: '',
-            setInputContext: () => {},
-            dataContext: mockContextData,
-            setDataContext: () => {},
-          }}
-        >
+      <Provider store={store}>
+        <BrowserRouter>
           <App />
-        </AppContext.Provider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </Provider>
     );
 
     expect(global.location.search).toBe('?search=&page=1&productsPerPage=5');
@@ -28,16 +21,9 @@ describe('Tests for the App component', () => {
   test('app renders correctly', () => {
     render(
       <BrowserRouter>
-        <AppContext.Provider
-          value={{
-            inputContext: '',
-            setInputContext: () => {},
-            dataContext: mockContextData,
-            setDataContext: () => {},
-          }}
-        >
+        <Provider store={store}>
           <App />
-        </AppContext.Provider>
+        </Provider>
       </BrowserRouter>
     );
 

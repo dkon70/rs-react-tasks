@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProductPage from '../components/ProductPage/ProductPage';
 import { server } from './server';
 import { data } from './mockData';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
 
 beforeAll(() => server.listen());
 afterEach(() => {
@@ -42,23 +44,25 @@ describe('Tests for the Card component', () => {
   test('clicking on a card opens a detailed card component', async () => {
     render(
       <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={
-                <ProductCard
-                  id={data.id}
-                  title={data.title}
-                  description={data.description}
-                  thumbnail={data.thumbnail}
-                  price={data.price}
-                />
-              }
-            />
-            <Route path="/:id" element={<ProductPage />} />
-          </Route>
-        </Routes>
+        <Provider store={store}>
+          <Routes>
+            <Route path="/">
+              <Route
+                index
+                element={
+                  <ProductCard
+                    id={data.id}
+                    title={data.title}
+                    description={data.description}
+                    thumbnail={data.thumbnail}
+                    price={data.price}
+                  />
+                }
+              />
+              <Route path="/:id" element={<ProductPage />} />
+            </Route>
+          </Routes>
+        </Provider>
       </BrowserRouter>
     );
 

@@ -1,22 +1,15 @@
 import { describe, test, expect } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { AppContext } from '../components/Context/Context';
-import { mockContextData } from './mockContextData';
 import PaginationControls from '../components/PaginationControls/PaginationControls';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
 
 describe('Tests for the Pagination component', () => {
   test('component updates URL query parameter when page changes', () => {
     render(
       <BrowserRouter>
-        <AppContext.Provider
-          value={{
-            inputContext: '',
-            setInputContext: () => {},
-            dataContext: mockContextData,
-            setDataContext: () => {},
-          }}
-        >
+        <Provider store={store}>
           <PaginationControls
             page={1}
             products={1}
@@ -24,7 +17,7 @@ describe('Tests for the Pagination component', () => {
             prevPage={() => {}}
             nextPage={() => {}}
           />
-        </AppContext.Provider>
+        </Provider>
       </BrowserRouter>
     );
     const nextButton = screen.getByTestId('nextButton');

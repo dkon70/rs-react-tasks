@@ -3,9 +3,8 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import { useGetItemQuery } from '../../redux/api';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setProductLoader } from '../../redux/productLoader';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { RootState } from '../../redux/store';
 
 const ProductPage = () => {
