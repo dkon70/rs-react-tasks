@@ -19,7 +19,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const { data } = await store.dispatch(
       getProduct.initiate({
-        name: '',
+        name: String(context.query.search) || '',
         limit: Number(context.query.productsPerPage) || 5,
         skip: Number(context.query.page)
           ? Number(context.query.page) === 1
@@ -50,12 +50,12 @@ export default function Home({ data }: { data: Data }) {
     router.push({
       pathname: '/',
       query: {
-        search: '',
+        search: router.query.search || '',
         page: String(page),
         productsPerPage: router.query.productsPerPage || String(productsPerPage),
       },
     });
-  }, [page, productsPerPage]);
+  }, [page, productsPerPage, router.query.search]);
 
   const nextPageHandler = () => {
     if (Number(page) < data.total / Number(productsPerPage)) {

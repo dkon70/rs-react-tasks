@@ -1,21 +1,24 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { setInputContext } from '../../redux/inputSlice';
 import styles from './SearchBar.module.scss';
 
 const SearchBar = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState('');
-  // const dispatch = useDispatch();
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
   const submitHandler = () => {
-    localStorage.setItem('prevSearch', inputValue);
-    // dispatch(setInputContext(inputValue));
+    router.push({
+      pathname: '/',
+      query: {
+        search: inputValue,
+        page: router.query.page,
+        productsPerPage: router.query.productsPerPage,
+      },
+    });
     setInputValue('');
   };
 
@@ -24,16 +27,6 @@ const SearchBar = () => {
       submitHandler();
     }
   };
-
-  useEffect(() => {
-    const storedValue = localStorage.getItem('prevSearch');
-    if (storedValue) {
-      // dispatch(setInputContext(String(storedValue)));
-      setInputValue(String(storedValue));
-    } else {
-      // dispatch(setInputContext(''));
-    }
-  }, []);
 
   return (
     <div className={styles.wrapper}>
