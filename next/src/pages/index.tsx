@@ -2,16 +2,10 @@ import styles from '@/styles/Home.module.scss';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import PaginationControls from '@/components/PaginationControls/PaginationControls';
 import Main from '@/components/Main/Main';
-import { Elem } from '@/components/types/Types';
-import { useGetProductQuery } from './api/api';
-import { api } from './api/api';
-import { RootState } from './api/api';
 import { Data } from '@/components/types/Types';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { wrapper } from './api/store';
 import { getProduct } from './api/api';
-import { store } from './api/store';
 import { getRunningQueriesThunk } from './api/api';
 import { useRouter } from 'next/router';
 
@@ -42,9 +36,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 export default function Home({ data }: { data: Data }) {
   const router = useRouter();
   const [page, setPage] = useState(router.query.page || 1);
-  const [productsPerPage] = useState(
-    router.query.productsPerPage || 5
-  );
+  const [productsPerPage] = useState(router.query.productsPerPage || 5);
 
   useEffect(() => {
     router.push({
@@ -52,7 +44,8 @@ export default function Home({ data }: { data: Data }) {
       query: {
         search: router.query.search || '',
         page: String(page),
-        productsPerPage: router.query.productsPerPage || String(productsPerPage),
+        productsPerPage:
+          router.query.productsPerPage || String(productsPerPage),
       },
     });
   }, [page, productsPerPage, router.query.search]);
