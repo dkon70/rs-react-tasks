@@ -1,20 +1,25 @@
 import styles from './PaginationControls.module.scss';
 import { PaginationProps } from '../types/Types';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 const PaginationControls = (props: PaginationProps) => {
   const router = useRouter();
-  const { page, total, nextPage, prevPage } = props;
-  const [currentPage, setCurrentPage] = useState(page);
+  const { page, total, nextPage, prevPage, productsPerPage } = props;
+  const [perPage, setPerPage] = useState(productsPerPage)
 
-  const perPage = 5;
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setPerPage(Number(e.target.value))
+  }
 
-  useEffect(() => {
-    router.query.page = String(currentPage || 1);
-  }, [currentPage]);
+  const perPageHandler = () => {
+    router.push({
+      pathname: '/',
+      query: { search: router.query.search, page: router.query.page, productsPerPage: perPage },
+    });
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -24,10 +29,10 @@ const PaginationControls = (props: PaginationProps) => {
           type="number"
           min={1}
           max={100}
-          value={perPage || 5}
-          onChange={(e) => ''}
+          value={perPage}
+          onChange={changeHandler}
         />
-        <button className={styles.button}>Submit</button>
+        <button onClick={perPageHandler} className={styles.button}>Submit</button>
       </div>
       <div className={styles.page}>
         <button

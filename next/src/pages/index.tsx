@@ -20,7 +20,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const { data } = await store.dispatch(
       getProduct.initiate({
         name: '',
-        limit: 5,
+        limit: Number(context.query.productsPerPage) || 5,
         skip: Number(context.query.page)
           ? Number(context.query.page) === 1
             ? 0
@@ -42,7 +42,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 export default function Home({ data }: { data: Data }) {
   const router = useRouter();
   const [page, setPage] = useState(router.query.page || 1);
-  const [productsPerPage, setProductsPerPage] = useState(
+  const [productsPerPage] = useState(
     router.query.productsPerPage || 5
   );
 
@@ -52,7 +52,7 @@ export default function Home({ data }: { data: Data }) {
       query: {
         search: '',
         page: String(page),
-        productsPerPage: String(productsPerPage),
+        productsPerPage: router.query.productsPerPage || String(productsPerPage),
       },
     });
   }, [page, productsPerPage]);
@@ -93,6 +93,7 @@ export default function Home({ data }: { data: Data }) {
           page={Number(router.query.page)}
           total={data.total}
           products={Number(router.query.productsPerPage)}
+          productsPerPage={Number(router.query.productsPerPage)}
         />
       </div>
       <div className={`${styles.wrapper} ${styles.mainContainer}`}>

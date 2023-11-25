@@ -14,6 +14,7 @@ export type PaginationProps = {
   page: number;
   products: number;
   total: number;
+  productsPerPage: number;
 };
 
 export type MainProps = {
