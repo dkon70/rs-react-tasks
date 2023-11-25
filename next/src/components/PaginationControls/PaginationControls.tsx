@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 const PaginationControls = (props: PaginationProps) => {
   const router = useRouter();
   const { page, total, nextPage, prevPage, productsPerPage } = props;
-  const [perPage, setPerPage] = useState(productsPerPage);
+  const [perPage, setPerPage] = useState(productsPerPage || 5);
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setPerPage(Number(e.target.value));
