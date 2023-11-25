@@ -21,7 +21,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
       getProduct.initiate({
         name: '',
         limit: 5,
-        skip: 0,
+        skip: Number(context.query.page)
+          ? Number(context.query.page) === 1
+            ? 0
+            : Number(context.query.page) *
+                Number(context.query.productsPerPage) -
+              Number(context.query.productsPerPage)
+          : 0 || 0,
       })
     );
 
@@ -35,9 +41,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 export default function Home({ data }: { data: Data }) {
   const router = useRouter();
-  const [page, setPage] = useState(router.query.page || '1');
+  const [page, setPage] = useState(router.query.page || 1);
   const [productsPerPage, setProductsPerPage] = useState(
-    router.query.productsPerPage || '5'
+    router.query.productsPerPage || 5
   );
 
   useEffect(() => {
@@ -52,11 +58,15 @@ export default function Home({ data }: { data: Data }) {
   }, [page, productsPerPage]);
 
   const nextPageHandler = () => {
-    setPage(String(Number(page) + 1));
+    if (Number(page) < data.total / Number(productsPerPage)) {
+      setPage(String(Number(page) + 1));
+    }
   };
 
   const prevPageHandler = () => {
-    setPage(String(Number(page) - 1));
+    if (Number(page) > 1) {
+      setPage(String(Number(page) - 1));
+    }
   };
 
   useEffect(() => {

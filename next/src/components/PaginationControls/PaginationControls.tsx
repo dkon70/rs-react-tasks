@@ -12,12 +12,8 @@ const PaginationControls = (props: PaginationProps) => {
 
   const perPage = 5;
 
-  const pageChangeHandler = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
   useEffect(() => {
-    router.query.page = String(currentPage);
+    router.query.page = String(currentPage || 1);
   }, [currentPage]);
 
   return (
@@ -34,13 +30,23 @@ const PaginationControls = (props: PaginationProps) => {
         <button className={styles.button}>Submit</button>
       </div>
       <div className={styles.page}>
-        <button onClick={prevPage} className={styles.button}>
+        <button
+          onClick={prevPage}
+          className={`${styles.button} ${page === 1 ? styles.disabled : ''}`}
+        >
           prev
         </button>
 
         <p className={styles.pageNumber}>{page}</p>
 
-        <button onClick={nextPage} className={styles.button}>
+        <button
+          onClick={nextPage}
+          className={`${styles.button} ${
+            page === total / Number(router.query.productsPerPage)
+              ? styles.disabled
+              : ''
+          }`}
+        >
           next
         </button>
       </div>
