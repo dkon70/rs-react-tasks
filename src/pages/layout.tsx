@@ -5,17 +5,11 @@ import Main from '@/components/Main/Main';
 import { Data } from '@/components/types/Types';
 import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
-import { Elem } from '@/components/types/Types';
 
-const Layout = ({
-  data,
-  children,
-}: {
-  data: Data | Elem;
-  children?: ReactNode;
-}) => {
+const Layout = ({ data, children }: { data: Data; children?: ReactNode }) => {
   const router = useRouter();
-  const productData = data as Data;
+  const total = data ? data.total || 0 : 0;
+  const productData = data ? data : { products: [], total: 0 };
 
   const handlePageChange = (newPage: number) => {
     router.push({
@@ -30,7 +24,7 @@ const Layout = ({
 
   const nextPageHandler = () => {
     const nextPage = Number(router.query.page) + 1;
-    if (nextPage <= productData.total / Number(router.query.productsPerPage)) {
+    if (nextPage <= total / Number(router.query.productsPerPage)) {
       handlePageChange(nextPage);
     }
   };
@@ -81,7 +75,7 @@ const Layout = ({
               prevPage={prevPageHandler}
               nextPage={nextPageHandler}
               page={Number(router.query.page) || 1}
-              total={productData.total || 0}
+              total={total}
               products={Number(router.query.productsPerPage)}
               productsPerPage={Number(router.query.productsPerPage)}
             />
