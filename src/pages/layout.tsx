@@ -12,7 +12,7 @@ const Layout = ({
   children,
 }: {
   data: Data | Elem;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   const router = useRouter();
   const productData = data as Data;

@@ -33,7 +33,7 @@ export default function Home({ data }: { data: Data }) {
   return (
     <>
       <ErrorBoundary>
-        <Layout data={data}>{}</Layout>
+        <Layout data={data} />
       </ErrorBoundary>
     </>
   );
