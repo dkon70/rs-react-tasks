@@ -12,13 +12,6 @@ export default defineConfig(
       setupFiles: './src/test/setup.ts',
     },
     plugins: [react()],
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@use "./src/style/style.scss" as *;`,
-        },
-      },
-    },
     resolve: {
       alias: [{ find: '@', replacement: '/src' }],
     },
