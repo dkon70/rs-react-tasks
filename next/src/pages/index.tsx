@@ -31,7 +31,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 export default function Home({ data }: { data: Data }) {
   return (
     <>
-      <Layout data={data}>{''}</Layout>
+      <Layout data={data}>{}</Layout>
     </>
   );
 }

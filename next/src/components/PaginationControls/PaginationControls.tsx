@@ -46,7 +46,7 @@ const PaginationControls = (props: PaginationProps) => {
           prev
         </button>
 
-        <p className={styles.pageNumber}>{page}</p>
+        <p className={styles.pageNumber}>{page || 1}</p>
 
         <button
           onClick={nextPage}

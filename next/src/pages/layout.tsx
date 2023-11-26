@@ -18,59 +18,34 @@ const Layout = ({
   const productData = data as Data;
   const [page, setPage] = useState(router.query.page || 1);
   const [productsPerPage] = useState(router.query.productsPerPage || 5);
-  // const [isSideOpen, setSideOpen] = useState(true);
 
-  // useEffect(() => {
-  //   router.push({
-  //     pathname: '/',
-  //     query: {
-  //       search: router.query.search || '',
-  //       page: String(page),
-  //       productsPerPage:
-  //         router.query.productsPerPage || String(productsPerPage),
-  //     },
-  //   });
-  // }, [page, productsPerPage, router.query.search]);
+  const handlePageChange = (newPage: number) => {
+    setPage(String(newPage));
+    router.push({
+      pathname: '/',
+      query: {
+        search: router.query.search || '',
+        page: String(newPage),
+        productsPerPage: String(productsPerPage),
+      },
+    });
+  };
 
   const nextPageHandler = () => {
     const nextPage = Number(page) + 1;
     if (nextPage <= productData.total / Number(productsPerPage)) {
-      setPage(String(nextPage));
-      router.push({
-        pathname: '/',
-        query: {
-          search: router.query.search || '',
-          page: String(nextPage),
-          productsPerPage: String(productsPerPage),
-        },
-      });
+      handlePageChange(nextPage);
     }
   };
 
   const prevPageHandler = () => {
     const prevPage = Number(page) - 1;
     if (prevPage >= 1) {
-      setPage(String(prevPage));
-      router.push({
-        pathname: '/',
-        query: {
-          search: router.query.search || '',
-          page: String(prevPage),
-          productsPerPage: String(productsPerPage),
-        },
-      });
+      handlePageChange(prevPage);
     }
   };
 
-  // useEffect(() => {
-  //   router.push({
-  //     pathname: '/',
-  //     query: { search: '', page: page, productsPerPage: productsPerPage },
-  //   });
-  // }, []);
-
   const isFetching = false;
-  const total = 5;
 
   return (
     <div className={styles.app}>
@@ -86,7 +61,7 @@ const Layout = ({
           <PaginationControls
             prevPage={prevPageHandler}
             nextPage={nextPageHandler}
-            page={Number(router.query.page)}
+            page={Number(router.query.page) || 1}
             total={productData.total}
             products={Number(router.query.productsPerPage)}
             productsPerPage={Number(router.query.productsPerPage)}
@@ -95,14 +70,11 @@ const Layout = ({
         <div className={`${styles.wrapper} ${styles.mainContainer}`}>
           <Main
             loading={isFetching}
-            data={{ products: productData.products || [], total }}
+            data={{ products: productData.products || [] }}
           />
         </div>
       </div>
-      <div className={styles.outlet}>
-        {/* {isSideOpen ? <h1>Open</h1> : ''} */}
-        {children}
-      </div>
+      <div className={styles.outlet}>{children}</div>
     </div>
   );
 };

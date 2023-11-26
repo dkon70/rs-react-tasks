@@ -18,7 +18,7 @@ export type PaginationProps = {
 };
 
 export type MainProps = {
-  data?: { products: Elem[]; total: number };
+  data?: { products: Elem[] };
   loading: boolean;
 };
 
