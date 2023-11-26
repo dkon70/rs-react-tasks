@@ -71,6 +71,16 @@ const Layout = ({
               <SearchBar />
             </div>
           </header>
+          <div className={styles.buttonWrapper}>
+            <button
+              className={styles.errorButton}
+              onClick={() => {
+                throw new Error('ErrorBoudnary');
+              }}
+            >
+              Error
+            </button>
+          </div>
           <div className={styles.pagination}>
             <PaginationControls
               prevPage={prevPageHandler}

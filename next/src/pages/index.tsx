@@ -3,6 +3,7 @@ import { wrapper } from './api/store';
 import { getProduct } from './api/api';
 import { getRunningQueriesThunk } from './api/api';
 import Layout from './layout';
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -31,7 +32,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
 export default function Home({ data }: { data: Data }) {
   return (
     <>
-      <Layout data={data}>{}</Layout>
+      <ErrorBoundary>
+        <Layout data={data}>{}</Layout>
+      </ErrorBoundary>
     </>
   );
 }
