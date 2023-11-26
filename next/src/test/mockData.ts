@@ -72,6 +72,6 @@ const mockMultData = {
     },
   ],
   total: 7,
-}
+};
 
 export { mockCardData, mockData, mockMultData };

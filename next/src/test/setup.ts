@@ -7,6 +7,7 @@ expect.extend(matchers);
 beforeAll(() => {
   vi.mock('next/router', () => ({
     useRouter: () => ({
+      pathname: '/',
       query: { search: '', page: 1, productsPerPage: 5 },
     }),
   }));

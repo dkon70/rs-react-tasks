@@ -7,6 +7,7 @@ export default defineConfig(
       coverage: {
         provider: 'v8',
         reporter: 'text',
+        exclude: ['src/components/ErrorBoundary/', 'src/pages/index.tsx'],
       },
       environment: 'jsdom',
       setupFiles: './src/test/setup.ts',

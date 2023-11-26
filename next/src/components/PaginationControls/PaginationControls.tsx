@@ -49,6 +49,7 @@ const PaginationControls = (props: PaginationProps) => {
         <p className={styles.pageNumber}>{page || 1}</p>
 
         <button
+          data-testid="nextButton"
           onClick={nextPage}
           className={`${styles.button} ${
             page === total / Number(router.query.productsPerPage)

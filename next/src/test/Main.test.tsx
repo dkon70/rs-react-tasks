@@ -5,9 +5,7 @@ import { mockMultData } from './mockData';
 
 describe('Tests for the Card List component', () => {
   test('renders the specified number of cards', async () => {
-    render(
-      <Main data={mockMultData} />
-    );
+    render(<Main data={mockMultData} />);
 
     await waitFor(() => {
       const cards = screen.getAllByTestId('card');
@@ -16,9 +14,7 @@ describe('Tests for the Card List component', () => {
   });
 
   test('appropriate message is displayed if no cards are present', async () => {
-    render(
-      <Main />
-    );
+    render(<Main />);
 
     await waitFor(() => {
       const message = screen.getByText('No Data');
