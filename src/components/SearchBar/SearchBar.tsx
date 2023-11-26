@@ -1,25 +1,24 @@
-import style from './SearchBar.module.scss';
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setInputContext } from '../../redux/inputSlice';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import styles from './SearchBar.module.scss';
 
 const SearchBar = () => {
-  const [searchParams] = useSearchParams();
-  const [inputValue, setInputValue] = useState(
-    searchParams.get('search') || ''
-  );
-
-  const dispatch = useDispatch();
+  const router = useRouter();
+  const [inputValue, setInputValue] = useState('');
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
   const submitHandler = () => {
-    localStorage.setItem('prevSearch', inputValue);
-    dispatch(setInputContext(inputValue));
+    router.push({
+      pathname: '/',
+      query: {
+        search: inputValue,
+        page: router.query.page,
+        productsPerPage: router.query.productsPerPage,
+      },
+    });
     setInputValue('');
   };
 
@@ -29,19 +28,10 @@ const SearchBar = () => {
     }
   };
 
-  useEffect(() => {
-    if (localStorage.getItem('prevSearch')) {
-      dispatch(setInputContext(String(localStorage.getItem('prevSearch'))));
-      setInputValue(String(localStorage.getItem('prevSearch')));
-    } else {
-      dispatch(setInputContext(''));
-    }
-  }, []);
-
   return (
-    <div className={style.wrapper}>
+    <div className={styles.wrapper}>
       <input
-        className={style.input}
+        className={styles.input}
         type="text"
         placeholder="type something..."
         onChange={inputHandler}
@@ -50,7 +40,7 @@ const SearchBar = () => {
         data-testid="input"
       />
       <button
-        className={style.button}
+        className={styles.button}
         onClick={submitHandler}
         data-testid="button"
       >

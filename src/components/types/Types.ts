@@ -14,11 +14,11 @@ export type PaginationProps = {
   page: number;
   products: number;
   total: number;
+  productsPerPage: number;
 };
 
 export type MainProps = {
-  data?: { products: Elem[]; total: number };
-  loading: boolean;
+  data?: { products: Elem[] };
 };
 
 export type SearchProps = {

@@ -1,55 +1,27 @@
 import styles from './PaginationControls.module.scss';
 import { PaginationProps } from '../types/Types';
-import { Link, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setProductsPerPage } from '../../redux/perPageSlice';
-import { RootState } from '../../redux/store';
+import { ChangeEvent, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const PaginationControls = (props: PaginationProps) => {
-  const { page, total } = props;
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(page);
+  const router = useRouter();
+  const { page, total, nextPage, prevPage, productsPerPage } = props;
+  const [perPage, setPerPage] = useState(productsPerPage || 5);
 
-  const dispatch = useDispatch();
-  const perPage = useSelector(
-    (state: RootState) => state.perPage.productsPerPage
-  );
-
-  const productsPerPageChangeHandler = () => {
-    setSearchParams({
-      search: localStorage.getItem('prevSearch') || '',
-      page: String(currentPage) || '1',
-      productsPerPage: String(perPage),
-    });
-    dispatch(setProductsPerPage(Number(searchParams.get('productsPerPage'))));
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setPerPage(Number(e.target.value));
   };
 
-  const totalPages = total >= perPage ? Math.floor(total / perPage) : 1;
-
-  const pageChangeHandler = (newPage: number) => {
-    setSearchParams({ ...searchParams, page: String(newPage) });
-    setCurrentPage(newPage);
-  };
-
-  useEffect(() => {
-    const itemsPerPageFromParams = Number(searchParams.get('productsPerPage'));
-    if (!isNaN(itemsPerPageFromParams) && itemsPerPageFromParams >= 1) {
-      dispatch(setProductsPerPage(itemsPerPageFromParams));
-      setCurrentPage(1);
-    } else {
-      dispatch(setProductsPerPage(5));
-      setSearchParams({ ...searchParams, page: '1', productsPerPage: '5' });
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    setSearchParams({
-      search: localStorage.getItem('prevSearch') || '',
-      page: String(currentPage) || '1',
-      productsPerPage: String(perPage) || '5',
+  const perPageHandler = () => {
+    router.push({
+      pathname: '/',
+      query: {
+        search: router.query.search,
+        page: router.query.page,
+        productsPerPage: perPage,
+      },
     });
-  }, [localStorage.getItem('prevSearch')]);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -59,43 +31,34 @@ const PaginationControls = (props: PaginationProps) => {
           type="number"
           min={1}
           max={100}
-          value={perPage || 5}
-          onChange={(e) => dispatch(setProductsPerPage(Number(e.target.value)))}
+          value={perPage}
+          onChange={changeHandler}
         />
-        <button
-          className={styles.button}
-          onClick={productsPerPageChangeHandler}
-        >
+        <button onClick={perPageHandler} className={styles.button}>
           Submit
         </button>
       </div>
       <div className={styles.page}>
-        <Link
-          to={`/?search=${searchParams.get('search') || ''}&page=${Math.max(
-            1,
-            page - 1
-          )}&productsPerPage=${perPage || 5}`}
-          className={`${styles.button} ${styles.buttonPrev} ${
-            page === 1 ? styles.disabled : ''
-          }`}
-          onClick={() => pageChangeHandler(Math.max(1, page - 1))}
+        <button
+          onClick={prevPage}
+          className={`${styles.button} ${page === 1 ? styles.disabled : ''}`}
         >
           prev
-        </Link>
-        <p className={styles.pageNumber}>{page}</p>
-        <Link
-          to={`/?search=${searchParams.get('search') || ''}&page=${Math.min(
-            totalPages,
-            page + 1
-          )}&productsPerPage=${perPage}`}
-          className={`${styles.button} ${styles.buttonNext} ${
-            page === totalPages ? styles.disabled : ''
-          }`}
-          onClick={() => pageChangeHandler(Math.min(totalPages, page + 1))}
+        </button>
+
+        <p className={styles.pageNumber}>{page || 1}</p>
+
+        <button
           data-testid="nextButton"
+          onClick={nextPage}
+          className={`${styles.button} ${
+            page === total / Number(router.query.productsPerPage)
+              ? styles.disabled
+              : ''
+          }`}
         >
           next
-        </Link>
+        </button>
       </div>
     </div>
   );
