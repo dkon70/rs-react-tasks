@@ -81,7 +81,7 @@ const Layout = ({
               prevPage={prevPageHandler}
               nextPage={nextPageHandler}
               page={Number(router.query.page) || 1}
-              total={productData.total}
+              total={productData.total || 0}
               products={Number(router.query.productsPerPage)}
               productsPerPage={Number(router.query.productsPerPage)}
             />
