@@ -52,7 +52,7 @@ const PaginationControls = (props: PaginationProps) => {
           data-testid="nextButton"
           onClick={nextPage}
           className={`${styles.button} ${
-            page === total / Number(router.query.productsPerPage)
+            page && page === total / Number(router.query.productsPerPage)
               ? styles.disabled
               : ''
           }`}
