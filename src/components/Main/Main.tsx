@@ -2,6 +2,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import { Elem, MainProps } from '../../components/types/Types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import style from './Main.module.scss';
 
 const Main = (props: MainProps) => {
   const { data } = props;
@@ -23,6 +24,7 @@ const Main = (props: MainProps) => {
                   productsPerPage: router.query.productsPerPage,
                 },
               }}
+              className={style.link}
             >
               <ProductCard
                 title={el.title}
