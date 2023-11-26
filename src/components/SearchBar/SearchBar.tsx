@@ -15,7 +15,7 @@ const SearchBar = () => {
       pathname: '/',
       query: {
         search: inputValue,
-        page: router.query.page,
+        page: 1,
         productsPerPage: router.query.productsPerPage,
       },
     });

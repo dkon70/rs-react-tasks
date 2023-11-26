@@ -17,7 +17,7 @@ const PaginationControls = (props: PaginationProps) => {
       pathname: '/',
       query: {
         search: router.query.search,
-        page: router.query.page,
+        page: 1,
         productsPerPage: perPage,
       },
     });
