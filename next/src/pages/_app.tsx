@@ -9,14 +9,16 @@ import { useRouter } from 'next/router';
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   useEffect(() => {
-    router.push({
-      pathname: '/',
-      query: {
-        search: router.query.search || '',
-        page: router.query.page || 1,
-        productsPerPage: router.query.productsPerPage || 5,
-      },
-    });
+    if (!router.query.page && !router.query.productsPerPage) {
+      router.push({
+        pathname: '/',
+        query: {
+          search: '',
+          page: 1,
+          productsPerPage: 5,
+        },
+      });
+    }
   }, []);
 
   return (
