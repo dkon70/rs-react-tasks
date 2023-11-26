@@ -1,24 +1,21 @@
-import Loader from '../../components/Loader/Loader';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { Elem, MainProps } from '../../components/types/Types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Main = (props: MainProps) => {
-  const { data, loading } = props;
+  const { data } = props;
   const router = useRouter();
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : data ? (
+      {data ? (
         data.products.map((el: Elem) => {
           return (
             <Link
               key={el.id}
               href={{
-                pathname: '/[id]',
+                pathname: `/${el.id}`,
                 query: {
                   id: el.id,
                   search: router.query.search,

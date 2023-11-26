@@ -53,8 +53,6 @@ const Layout = ({
     });
   };
 
-  const isFetching = false;
-
   return (
     <div className={styles.app}>
       <div
@@ -89,10 +87,7 @@ const Layout = ({
             />
           </div>
           <div className={`${styles.wrapper} ${styles.mainContainer}`}>
-            <Main
-              loading={isFetching}
-              data={{ products: productData.products || [] }}
-            />
+            <Main data={{ products: productData.products || [] }} />
           </div>
           {router.query.id ? (
             <div

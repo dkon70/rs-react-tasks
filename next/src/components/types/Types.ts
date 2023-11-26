@@ -19,7 +19,6 @@ export type PaginationProps = {
 
 export type MainProps = {
   data?: { products: Elem[] };
-  loading: boolean;
 };
 
 export type SearchProps = {
