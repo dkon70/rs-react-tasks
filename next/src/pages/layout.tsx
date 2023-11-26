@@ -45,6 +45,17 @@ const Layout = ({
     }
   };
 
+  const closeSideOnClickHandler = () => {
+    router.replace({
+      pathname: '/',
+      query: {
+        search: router.query.search,
+        page: router.query.page,
+        productsPerPage: router.query.productsPerPage,
+      },
+    });
+  };
+
   const isFetching = false;
 
   return (
@@ -52,28 +63,39 @@ const Layout = ({
       <div
         className={`${styles.mainApp} ${router.query.id ? styles.split : ''}`}
       >
-        <header className={styles.header}>
-          <div className={styles.wrapper}>
-            <SearchBar />
+        <div
+          className={`${styles.mainApp} ${router.query.id ? styles.split : ''}`}
+        >
+          <header className={styles.header}>
+            <div className={styles.wrapper}>
+              <SearchBar />
+            </div>
+          </header>
+          <div className={styles.pagination}>
+            <PaginationControls
+              prevPage={prevPageHandler}
+              nextPage={nextPageHandler}
+              page={Number(router.query.page) || 1}
+              total={productData.total}
+              products={Number(router.query.productsPerPage)}
+              productsPerPage={Number(router.query.productsPerPage)}
+            />
           </div>
-        </header>
-        <div className={styles.pagination}>
-          <PaginationControls
-            prevPage={prevPageHandler}
-            nextPage={nextPageHandler}
-            page={Number(router.query.page) || 1}
-            total={productData.total}
-            products={Number(router.query.productsPerPage)}
-            productsPerPage={Number(router.query.productsPerPage)}
-          />
+          <div className={`${styles.wrapper} ${styles.mainContainer}`}>
+            <Main
+              loading={isFetching}
+              data={{ products: productData.products || [] }}
+            />
+          </div>
+          {router.query.id ? (
+            <div
+              onClick={closeSideOnClickHandler}
+              className={styles.shadow}
+            ></div>
+          ) : (
+            ''
+          )}
         </div>
-        <div className={`${styles.wrapper} ${styles.mainContainer}`}>
-          <Main
-            loading={isFetching}
-            data={{ products: productData.products || [] }}
-          />
-        </div>
-        {router.query.id ? <div className={styles.shadow}></div> : ''}
       </div>
       <div className={styles.outlet}>{children}</div>
     </div>
