@@ -3,7 +3,7 @@ import SearchBar from '@/components/SearchBar/SearchBar';
 import PaginationControls from '@/components/PaginationControls/PaginationControls';
 import Main from '@/components/Main/Main';
 import { Data } from '@/components/types/Types';
-import { useState, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import { Elem } from '@/components/types/Types';
 
@@ -16,30 +16,27 @@ const Layout = ({
 }) => {
   const router = useRouter();
   const productData = data as Data;
-  const [page, setPage] = useState(router.query.page || 1);
-  const [productsPerPage] = useState(router.query.productsPerPage || 5);
 
   const handlePageChange = (newPage: number) => {
-    setPage(String(newPage));
     router.push({
       pathname: '/',
       query: {
         search: router.query.search || '',
         page: String(newPage),
-        productsPerPage: String(productsPerPage),
+        productsPerPage: String(router.query.productsPerPage) || '5',
       },
     });
   };
 
   const nextPageHandler = () => {
-    const nextPage = Number(page) + 1;
-    if (nextPage <= productData.total / Number(productsPerPage)) {
+    const nextPage = Number(router.query.page) + 1;
+    if (nextPage <= productData.total / Number(router.query.productsPerPage)) {
       handlePageChange(nextPage);
     }
   };
 
   const prevPageHandler = () => {
-    const prevPage = Number(page) - 1;
+    const prevPage = Number(router.query.page) - 1;
     if (prevPage >= 1) {
       handlePageChange(prevPage);
     }
