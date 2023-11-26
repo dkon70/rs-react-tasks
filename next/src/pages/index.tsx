@@ -1,13 +1,8 @@
-import styles from '@/styles/Home.module.scss';
-import SearchBar from '@/components/SearchBar/SearchBar';
-import PaginationControls from '@/components/PaginationControls/PaginationControls';
-import Main from '@/components/Main/Main';
 import { Data } from '@/components/types/Types';
-import { useState, useEffect } from 'react';
 import { wrapper } from './api/store';
 import { getProduct } from './api/api';
 import { getRunningQueriesThunk } from './api/api';
-import { useRouter } from 'next/router';
+import Layout from './layout';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -34,67 +29,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
 );
 
 export default function Home({ data }: { data: Data }) {
-  const router = useRouter();
-  const [page, setPage] = useState(router.query.page || 1);
-  const [productsPerPage] = useState(router.query.productsPerPage || 5);
-
-  useEffect(() => {
-    router.push({
-      pathname: '/',
-      query: {
-        search: router.query.search || '',
-        page: String(page),
-        productsPerPage:
-          router.query.productsPerPage || String(productsPerPage),
-      },
-    });
-  }, [page, productsPerPage, router.query.search]);
-
-  const nextPageHandler = () => {
-    if (Number(page) < data.total / Number(productsPerPage)) {
-      setPage(String(Number(page) + 1));
-    }
-  };
-
-  const prevPageHandler = () => {
-    if (Number(page) > 1) {
-      setPage(String(Number(page) - 1));
-    }
-  };
-
-  useEffect(() => {
-    router.push({
-      pathname: '/',
-      query: { search: '', page: page, productsPerPage: productsPerPage },
-    });
-  }, []);
-
-  const isFetching = false;
-  const total = 5;
-
   return (
     <>
-      <header className={styles.header}>
-        <div className={styles.wrapper}>
-          <SearchBar />
-        </div>
-      </header>
-      <div className={styles.pagination}>
-        <PaginationControls
-          prevPage={prevPageHandler}
-          nextPage={nextPageHandler}
-          page={Number(router.query.page)}
-          total={data.total}
-          products={Number(router.query.productsPerPage)}
-          productsPerPage={Number(router.query.productsPerPage)}
-        />
-      </div>
-      <div className={`${styles.wrapper} ${styles.mainContainer}`}>
-        <Main
-          loading={isFetching}
-          data={{ products: data.products || [], total }}
-        />
-      </div>
+      <Layout data={data}>{''}</Layout>
     </>
   );
 }

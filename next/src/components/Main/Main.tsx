@@ -1,9 +1,12 @@
 import Loader from '../../components/Loader/Loader';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { Elem, MainProps } from '../../components/types/Types';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Main = (props: MainProps) => {
   const { data, loading } = props;
+  const router = useRouter();
 
   return (
     <>
@@ -12,14 +15,26 @@ const Main = (props: MainProps) => {
       ) : data ? (
         data.products.map((el: Elem) => {
           return (
-            <ProductCard
-              key={el.title}
-              title={el.title}
-              thumbnail={el.thumbnail}
-              description={el.description}
-              price={el.price}
-              id={el.id}
-            />
+            <Link
+              key={el.id}
+              href={{
+                pathname: '/[id]',
+                query: {
+                  id: el.id,
+                  search: router.query.search,
+                  page: router.query.page,
+                  productsPerPage: router.query.productsPerPage,
+                },
+              }}
+            >
+              <ProductCard
+                title={el.title}
+                thumbnail={el.thumbnail}
+                description={el.description}
+                price={el.price}
+                id={el.id}
+              />
+            </Link>
           );
         })
       ) : (
