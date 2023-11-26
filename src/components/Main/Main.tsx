@@ -10,7 +10,7 @@ const Main = (props: MainProps) => {
 
   return (
     <>
-      {data ? (
+      {data && data.products.length !== 0 ? (
         data.products.map((el: Elem) => {
           return (
             <Link
