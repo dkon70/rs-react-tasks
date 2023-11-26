@@ -73,6 +73,7 @@ const Layout = ({
             data={{ products: productData.products || [] }}
           />
         </div>
+        {router.query.id ? <div className={styles.shadow}></div> : ''}
       </div>
       <div className={styles.outlet}>{children}</div>
     </div>
