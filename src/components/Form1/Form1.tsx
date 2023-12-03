@@ -7,22 +7,8 @@ import { Link } from 'react-router-dom';
 import style from './Form1.module.scss';
 import { validationSchema } from '../../utils/utils';
 import { pictureToBase64 } from '../../utils/utils';
+import { Form1Values, Form1Errors } from '../../utils/types';
 
-interface FormValues {
-  name: string;
-  age: string;
-  country: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  acceptTerms: boolean;
-  file: File | null;
-}
-
-interface FormErrors {
-  [key: string]: string | undefined;
-}
 
 const Form1 = () => {
   const dispatch = useDispatch();
@@ -38,11 +24,11 @@ const Form1 = () => {
   const acceptTermsRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [errors, setErrors] = useState<Form1Errors>({});
 
-  const validateForm = async (): Promise<FormValues | null> => {
+  const validateForm = async (): Promise<Form1Values | null> => {
     try {
-      const formData: FormValues = {
+      const formData: Form1Values = {
         name: nameRef.current?.value ?? '',
         age: ageRef.current?.value ?? '',
         country: countryRef.current?.value ?? '',
@@ -58,7 +44,7 @@ const Form1 = () => {
       return formData;
     } catch (validationErrors) {
       if (validationErrors instanceof yup.ValidationError) {
-        const formattedErrors: FormErrors = {};
+        const formattedErrors: Form1Errors = {};
 
         for (const error of validationErrors.inner) {
           if (error.path) formattedErrors[error.path] = error.message;

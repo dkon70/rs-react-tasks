@@ -1,22 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Form2SliceData, Form2SliceState } from '../utils/types';
 
-export type FormData = {
-  name: string;
-  age: string;
-  country: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  acceptTerms: boolean;
-  file: string | null;
-};
-
-export type FormState = {
-  form2Data: FormData[];
-};
-
-const initialState: FormState = {
+const initialState: Form2SliceState = {
   form2Data: [],
 };
 
@@ -24,7 +9,7 @@ const form2Slice = createSlice({
   name: 'form2',
   initialState,
   reducers: {
-    setForm2Data: (state, action: PayloadAction<FormData>) => {
+    setForm2Data: (state, action: PayloadAction<Form2SliceData>) => {
       state.form2Data.push(action.payload);
     },
   },
