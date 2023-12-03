@@ -4,6 +4,21 @@ import * as Yup from 'yup';
 import style from './Form1.module.scss';
 import YupPassword from 'yup-password';
 YupPassword(Yup);
+import { useDispatch } from 'react-redux';
+import { setForm1Data } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
+
+type FormValues = {
+  name: string;
+  age: string;
+  country: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  gender: string;
+  acceptTerms: boolean;
+  file: string | null;
+};
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -37,7 +52,9 @@ const validationSchema = Yup.object({
 });
 
 const Form2 = () => {
-  const formik = useFormik({
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
       age: '',
@@ -50,10 +67,37 @@ const Form2 = () => {
       file: null,
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      values.file = values.file ? await pictureToBase64(values.file) : null;
+      dispatch(setForm1Data(values));
+      navigate('/');
     },
   });
+
+  const pictureToBase64 = (file: File | string | null) => {
+    if (!file) {
+      return Promise.resolve(null);
+    }
+  
+    if (typeof file === 'string') {
+      return Promise.resolve(file);
+    }
+  
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        const result = reader.result as string;
+        resolve(result);
+      };
+  
+      reader.onerror = (error) => {
+        reject(error);
+      };
+  
+      reader.readAsDataURL(file);
+    });
+  };
 
   return (
     <>
