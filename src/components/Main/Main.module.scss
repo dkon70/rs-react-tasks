@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.link {
+  color: black;
+  text-decoration: none;
+  font-size: 2em;
+}
+
+.form1Data {
+  left: 0px;
+  top: 0px;
+  position: fixed;
+  overflow: scroll;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-sizing: border-box;
+}
+
+.form2Data {
+  right: 0px;
+  top: 0px;
+  position: fixed;
+  overflow: scroll;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-sizing: border-box;
+}
+
+.card {
+  padding: 5px;
+}
+
+.card:last-of-type {
+  border: 1px solid black;
+}
