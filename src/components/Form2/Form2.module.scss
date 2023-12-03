@@ -33,4 +33,32 @@
 .line {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  height: 20px;
+  flex: 1;
+}
+
+.button {
+  background: black;
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 300px;
+}
+
+.button:hover {
+  background: rgb(35, 35, 35);
+}
+
+.button:active {
+  background: black;
 }

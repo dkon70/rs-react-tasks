@@ -42,4 +42,29 @@
 .error {
   height: 20px;
   color: red;
+  font-size: 12px;
+}
+
+.button {
+  background: black;
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.button:hover {
+  background: rgb(35, 35, 35);
+}
+
+.button:active {
+  background: black;
+}
+
+.country {
+  width: 156px;
 }

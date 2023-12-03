@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import style from './Form2.module.scss';
-import Button from '../Button/Button';
 
 const Form1 = () => {
   return (
@@ -36,9 +35,9 @@ const Form1 = () => {
           </form>
           <form>
             <label>Gender: </label>
-            <input type="radio" id="genderm" name='gender' />
+            <input type="radio" id="genderm" name="gender" />
             <label htmlFor="genderm">M</label>
-            <input type="radio" id="genderf" name='gender' />
+            <input type="radio" id="genderf" name="gender" />
             <label htmlFor="genderf">F</label>
           </form>
           <form>
@@ -48,7 +47,7 @@ const Form1 = () => {
           <form className={style.line}>
             <input type="file" />
           </form>
-          <Button>Submit</Button>
+          <button className={style.button}>Submit</button>
         </div>
       </div>
     </>
