@@ -24,23 +24,25 @@
   width: 300px;
   gap: 10px;
 
-  input:not(input[type='file']) {
+  input {
     outline: none;
     border: 1px solid black;
+  }
+
+  input[type='file'] {
+    border: none;
   }
 }
 
 .line {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .error {
+  height: 20px;
   color: red;
   font-size: 12px;
-  height: 20px;
-  flex: 1;
 }
 
 .button {
@@ -52,7 +54,7 @@
   padding-bottom: 15px;
   cursor: pointer;
   transition: 0.3s;
-  width: 300px;
+  width: 100%;
 }
 
 .button:hover {
@@ -61,4 +63,8 @@
 
 .button:active {
   background: black;
+}
+
+.country {
+  width: 156px;
 }
