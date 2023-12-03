@@ -78,23 +78,23 @@ const Form2 = () => {
     if (!file) {
       return Promise.resolve(null);
     }
-  
+
     if (typeof file === 'string') {
       return Promise.resolve(file);
     }
-  
+
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         const result = reader.result as string;
         resolve(result);
       };
-  
+
       reader.onerror = (error) => {
         reject(error);
       };
-  
+
       reader.readAsDataURL(file);
     });
   };
@@ -139,7 +139,13 @@ const Form2 = () => {
 
             <div className={style.line}>
               <label>Country: </label>
-              <select className={style.country} id='country' onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.country}>
+              <select
+                className={style.country}
+                id="country"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.country}
+              >
                 <option></option>
                 <option>USA</option>
                 <option>Canada</option>
