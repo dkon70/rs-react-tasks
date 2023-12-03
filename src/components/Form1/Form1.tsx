@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom';
-import { useFormik } from 'formik';
-import style from './Form1.module.scss';
+import React, { useRef, useState } from 'react';
+import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { setForm1Data } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
-import { validationSchema, pictureToBase64 } from '../../utils/utils';
+import { Link } from 'react-router-dom';
+import style from './Form1.module.scss';
+import { validationSchema } from '../../utils/utils';
+import { pictureToBase64 } from '../../utils/utils';
 
-type FormValues = {
+interface FormValues {
   name: string;
   age: string;
   country: string;
@@ -15,31 +17,100 @@ type FormValues = {
   confirmPassword: string;
   gender: string;
   acceptTerms: boolean;
-  file: string | null;
-};
+  file: File | null;
+}
 
-const Form2 = () => {
+interface FormErrors {
+  [key: string]: string | undefined;
+}
+
+const Form1 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const formik = useFormik<FormValues>({
-    initialValues: {
-      name: '',
-      age: '',
-      country: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      gender: '',
-      acceptTerms: false,
-      file: null,
-    },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      values.file = values.file ? await pictureToBase64(values.file) : null;
-      dispatch(setForm1Data(values));
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const ageRef = useRef<HTMLInputElement>(null);
+  const countryRef = useRef<HTMLSelectElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
+  const genderRef = useRef<HTMLInputElement>(null);
+  const acceptTermsRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const validateForm = async (): Promise<FormValues | null> => {
+    try {
+      const formData: FormValues = {
+        name: nameRef.current?.value ?? '',
+        age: ageRef.current?.value ?? '',
+        country: countryRef.current?.value ?? '',
+        email: emailRef.current?.value ?? '',
+        password: passwordRef.current?.value ?? '',
+        confirmPassword: confirmPasswordRef.current?.value ?? '',
+        gender: genderRef.current?.value ?? '',
+        acceptTerms: acceptTermsRef.current?.checked ?? false,
+        file: fileRef.current?.files?.[0] ?? null,
+      };
+
+      await validationSchema.validate(formData, { abortEarly: false });
+      return formData;
+    } catch (validationErrors) {
+      if (validationErrors instanceof yup.ValidationError) {
+        const formattedErrors: FormErrors = {};
+
+        for (const error of validationErrors.inner) {
+          if (error.path) formattedErrors[error.path] = error.message;
+        }
+
+        setErrors(formattedErrors);
+      }
+      return null;
+    }
+  };
+
+  const validateField = async (fieldName: string, value: any) => {
+    try {
+      await validationSchema.validateAt(fieldName, { [fieldName]: value });
+      setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: undefined }));
+    } catch (error) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: (error as yup.ValidationError).message,
+      }));
+    }
+  };
+
+  const handleBlur = (
+    event:
+        React.FocusEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value, type } = event.target;
+    let fieldValue;
+
+    if (type === 'checkbox') {
+      fieldValue = (event.target as HTMLInputElement).checked;
+    } else {
+      fieldValue = value;
+    }
+
+    validateField(name, fieldValue);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const validData = await validateForm();
+
+    if (validData) {
+      const base64Image = await pictureToBase64(validData.file);
+      const formWithBase64Image = { ...validData, file: base64Image };
+
+      dispatch(setForm1Data(formWithBase64Image));
       navigate('/');
-    },
-  });
+    }
+  };
 
   return (
     <>
@@ -48,160 +119,116 @@ const Form2 = () => {
       </Link>
       <div className={style.wrapper}>
         <div className={style.form}>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className={style.line}>
               <label>Name: </label>
               <input
                 type="text"
+                ref={nameRef}
                 id="name"
                 name="name"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.name}
+                onBlur={handleBlur}
               />
             </div>
-            <div className={style.error}>
-              {formik.touched.name && formik.errors.name}
-            </div>
-
+            <div className={style.error}>{errors.name}</div>
             <div className={style.line}>
               <label>Age: </label>
               <input
                 type="text"
+                ref={ageRef}
                 id="age"
                 name="age"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.age}
+                onBlur={handleBlur}
               />
             </div>
-            <div className={style.error}>
-              {formik.touched.age && formik.errors.age}
-            </div>
-
+            <div className={style.error}>{errors.age}</div>
             <div className={style.line}>
               <label>Country: </label>
-              <select
-                className={style.country}
-                id="country"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.country}
-              >
+              <select ref={countryRef} className={style.country} id="country">
                 <option></option>
-                <option>USA</option>
-                <option>Canada</option>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
               </select>
             </div>
-            <div className={style.error}>
-              {formik.touched.country && formik.errors.country}
-            </div>
-
+            <div className={style.error}>{errors.country}</div>
             <div className={style.line}>
               <label>Email: </label>
               <input
                 type="text"
+                ref={emailRef}
                 id="email"
                 name="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
+                onBlur={handleBlur}
               />
             </div>
-            <div className={style.error}>
-              {formik.touched.email && formik.errors.email}
-            </div>
-
+            <div className={style.error}>{errors.email}</div>
             <div className={style.line}>
               <label>Password: </label>
               <input
                 type="password"
+                ref={passwordRef}
                 id="password"
                 name="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
+                onBlur={handleBlur}
+                onChange={handleBlur}
               />
             </div>
-            <div className={style.error}>
-              {formik.touched.password && formik.errors.password}
-            </div>
-
+            <div className={style.error}>{errors.password}</div>
             <div className={style.line}>
               <label>Password again: </label>
               <input
                 type="password"
+                ref={confirmPasswordRef}
                 id="confirmPassword"
                 name="confirmPassword"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmPassword}
               />
             </div>
-            <div className={style.error}>
-              {formik.touched.confirmPassword && formik.errors.confirmPassword}
-            </div>
-
+            <div className={style.error}>{errors.confirmPassword}</div>
             <div className={style.line}>
               <label>Gender: </label>
               <input
                 type="radio"
+                ref={genderRef}
                 id="genderm"
                 name="gender"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 value="M"
-                checked={formik.values.gender === 'M'}
+                onBlur={handleBlur}
               />
               <label htmlFor="genderm">M</label>
               <input
                 type="radio"
+                ref={genderRef}
                 id="genderf"
                 name="gender"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 value="F"
-                checked={formik.values.gender === 'F'}
+                onBlur={handleBlur}
               />
               <label htmlFor="genderf">F</label>
             </div>
-            <div className={style.error}>
-              {formik.touched.gender && formik.errors.gender}
-            </div>
-
+            <div className={style.error}>{errors.gender}</div>
             <div className={style.line}>
               <input
                 type="checkbox"
+                ref={acceptTermsRef}
                 id="acceptTerms"
                 name="acceptTerms"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                checked={formik.values.acceptTerms}
+                onBlur={handleBlur}
+                onChange={handleBlur}
               />
               <label htmlFor="acceptTerms">I accept terms and conditions</label>
             </div>
-            <div className={style.error}>
-              {formik.touched.acceptTerms && formik.errors.acceptTerms}
-            </div>
-
+            <div className={style.error}>{errors.acceptTerms}</div>
             <div className={style.line}>
               <input
                 type="file"
+                ref={fileRef}
                 id="file"
                 name="file"
                 accept="image/*"
-                onChange={(event) =>
-                  formik.setFieldValue(
-                    'file',
-                    event.target.files && event.target.files[0]
-                  )
-                }
-                onBlur={formik.handleBlur}
+                onBlur={handleBlur}
               />
             </div>
-            <div className={style.error}>
-              {formik.touched.file && formik.errors.file}
-            </div>
+            <div className={style.error}>{errors.file}</div>
 
             <button className={style.button} type="submit">
               Submit
@@ -213,4 +240,4 @@ const Form2 = () => {
   );
 };
 
-export default Form2;
+export default Form1;
