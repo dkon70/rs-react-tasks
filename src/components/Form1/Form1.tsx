@@ -56,7 +56,7 @@ const Form1 = () => {
     }
   };
 
-  const validateField = async (fieldName: string, value: any) => {
+  const validateField = async (fieldName: string, value: unknown) => {
     try {
       await validationSchema.validateAt(fieldName, { [fieldName]: value });
       setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: undefined }));

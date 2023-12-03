@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { setForm2Data } from '../../redux/store';
+import { Form2SliceData } from '../../utils/types';
 
 const Form2 = () => {
   const dispatch = useDispatch();
@@ -18,9 +19,14 @@ const Form2 = () => {
     handleSubmit,
   } = useForm({ resolver, mode: 'onBlur' });
 
-  const onSubmit = async (data) => {
-    data.file = data.file ? await pictureToBase64(data.file[0]) : null;
-    dispatch(setForm2Data(data));
+  const onSubmit = async (data: unknown) => {
+    const file = (data as Form2SliceData).file;
+    if (file) {
+      (data as Form2SliceData).file = await pictureToBase64(file[0]);
+    } else {
+      (data as Form2SliceData).file = null;
+    }
+    dispatch(setForm2Data(data as Form2SliceData));
     navigate('/');
   };
 

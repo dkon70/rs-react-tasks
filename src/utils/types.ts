@@ -23,7 +23,7 @@ export type Form2SliceData = {
   confirmPassword: string;
   gender: string;
   acceptTerms: boolean;
-  file: string | null;
+  file: File[] | string | null;
 };
 
 export type Form2SliceState = {
