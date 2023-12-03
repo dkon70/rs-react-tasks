@@ -10,7 +10,7 @@ export type Form1Values = {
   file: File | null;
 }
 
-export type  Form1Errors = {
+export type Form1Errors = {
   [key: string]: string | undefined;
 }
 
